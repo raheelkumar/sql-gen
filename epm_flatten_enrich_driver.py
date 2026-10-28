@@ -234,6 +234,10 @@ def _map_name(m):
     return f"{m['config_col'].lower()}_mapping"
 
 
+def _map_alias(m):
+    return f"M_{m['config_col']}"
+
+
 def _sort_key(value):
     text = str(value)
     return (0, int(text), "") if text.isdigit() else (1, 0, text)
@@ -719,7 +723,8 @@ def describe_plan(plan):
 def adjacency_check_sql(plan):
     """Config values whose deeper nodes are reached only through their children. The mapping joins
     parent = config value once, so this means the hierarchy view holds direct parent -> child rows only and
-    actuals booked on those deeper nodes are missed. None when no dimension is used."""
+    actuals booked on those deeper nodes are missed. Joins only (no correlated subquery). None when no dimension
+    is used."""
     joined = [m for m in plan["dimension_map"] if plan["dim_flags"][m["config_col"]]["use"]]
     parts = []
     for m in joined:
@@ -731,10 +736,11 @@ def adjacency_check_sql(plan):
             f"AND h1.{HIER_PARENT_COL} = TRIM(c.{col}) AND ({_hier_cond_raw('h1', 'c', ncol)}) "
             f"JOIN `{HIERARCHY_TABLE}` h2 ON h2.{HIER_DIM_COL} = '{dim}' "
             f"AND h2.{HIER_PARENT_COL} = h1.{HIER_CHILD_COL} AND ({_hier_cond_raw('h2', 'c', ncol)}) "
-            f"WHERE {_not_formula(plan['formula_col'], 'c')} AND NOT {_is_wild('c.' + col)} "
-            f"AND NOT EXISTS (SELECT 1 FROM `{HIERARCHY_TABLE}` h3 WHERE h3.{HIER_DIM_COL} = '{dim}' "
+            f"LEFT JOIN `{HIERARCHY_TABLE}` h3 ON h3.{HIER_DIM_COL} = '{dim}' "
             f"AND h3.{HIER_PARENT_COL} = TRIM(c.{col}) AND h3.{HIER_CHILD_COL} = h2.{HIER_CHILD_COL} "
-            f"AND ({_hier_cond_raw('h3', 'c', ncol)}))")
+            f"AND ({_hier_cond_raw('h3', 'c', ncol)}) "
+            f"WHERE {_not_formula(plan['formula_col'], 'c')} AND NOT {_is_wild('c.' + col)} "
+            f"AND h3.{HIER_CHILD_COL} IS NULL")
     if not parts:
         return None
     return ("SELECT dim, value, COUNT(DISTINCT deeper_node) AS deeper_nodes FROM (\n"
@@ -838,42 +844,58 @@ def build_base_sql(plan):
   WHERE C.{col} <> 'ALL'
 )""")
 
-    # actuals: only the years, columns and rows the config can use, summed before the cross join
-    group_cols = [ACTUALS_YEAR_COL, ACTUALS_PERIOD_COL] + [m["txn_col"] for m in joined]
+    # Required dimensions: every base row filters them (no wildcard). Matching to config rows uses joins only -
+    # BigQuery rejects correlated subqueries on tables, and cannot always de-correlate IN (SELECT ...) either.
+    required = [m for m in joined if flags[m["config_col"]]["required"]]
+    optional = [m for m in joined if not flags[m["config_col"]]["required"]]
+
+    # actuals: only the years, columns and rows the config can use, summed before they are matched to config rows.
+    # Each required dimension pre-filters the actuals with a join on its granular values.
+    group_cols = [f"T.{c}" for c in [ACTUALS_YEAR_COL, ACTUALS_PERIOD_COL] + [m["txn_col"] for m in joined]]
     filters = []
     if ACTUALS_YEARS_BACK:
         # label of the current fiscal year = year of today shifted to the fiscal year end
         shift = 0 if FISCAL_YEAR_START_MONTH == 1 else 13 - FISCAL_YEAR_START_MONTH
-        filters.append(f"{ACTUALS_YEAR_COL} IN (\n"
+        filters.append(f"T.{ACTUALS_YEAR_COL} IN (\n"
                        f"      SELECT FORMAT_DATE('{YEAR_LABEL_FORMAT}', DATE_SUB(DATE_ADD(CURRENT_DATE(), "
                        f"INTERVAL {shift} MONTH), INTERVAL i YEAR))\n"
                        f"      FROM UNNEST(GENERATE_ARRAY(0, {ACTUALS_YEARS_BACK - 1})) AS i)")
     if EXCLUDED_PERIODS:
-        filters.append(f"CAST({ACTUALS_PERIOD_COL} AS STRING) NOT IN ({_q(EXCLUDED_PERIODS)})")
-    for m in joined:
-        if flags[m["config_col"]]["required"]:       # every base row filters this dimension
-            filters.append(f"{m['txn_col']} IN (SELECT {_gran(m)} FROM {_map_name(m)})")
+        filters.append(f"CAST(T.{ACTUALS_PERIOD_COL} AS STRING) NOT IN ({_q(EXCLUDED_PERIODS)})")
     actuals_sql = (f"actuals AS (\n  SELECT {', '.join(group_cols)}, "
-                   f"SUM({ACTUALS_AMOUNT_COL}) AS {ACTUALS_AMOUNT_COL}\n"
-                   f"  FROM `{TRANSACTION_TABLE}`\n")
+                   f"SUM(T.{ACTUALS_AMOUNT_COL}) AS {ACTUALS_AMOUNT_COL}\n"
+                   f"  FROM `{TRANSACTION_TABLE}` T\n")
+    for m in required:
+        f_alias = f"F_{m['config_col']}"
+        actuals_sql += (f"  INNER JOIN (SELECT DISTINCT {_gran(m)} FROM {_map_name(m)}) {f_alias}\n"
+                        f"    ON {f_alias}.{_gran(m)} = T.{m['txn_col']}\n")
     if filters:
         actuals_sql += "  WHERE " + "\n    AND ".join(filters) + "\n"
     ctes.append(actuals_sql + f"  GROUP BY {', '.join(group_cols)}\n)")
 
-    # base_values: per dimension, wildcard OR the actual's value is one of the config row's granular values
-    where_parts = [
-        f"(C.{m['config_col']} = 'ALL'\n"
-        f"    OR EXISTS (SELECT 1 FROM {_map_name(m)} M\n"
-        f"      WHERE M.{CONFIG_ID_COL} = C.{CONFIG_ID_COL}\n"
-        f"      AND M.{_gran(m)} = A.{m['txn_col']}))"
-        for m in joined]
+    # base_values: an actual counts for a config row when, per dimension, the row is a wildcard or the actual's value
+    # is one of the row's granular values. Required dimensions are inner joins (the first also pairs each actual with
+    # only the config rows it can match, instead of every row); the others are LEFT JOINs + "wildcard OR matched",
+    # as in driver_line_item.sql. The mapping CTEs are DISTINCT, so no join repeats an actual.
+    if required:
+        first = required[0]
+        joins = [f"  INNER JOIN {_map_name(first)} {_map_alias(first)}\n"
+                 f"    ON {_map_alias(first)}.{_gran(first)} = A.{first['txn_col']}\n"
+                 f"  INNER JOIN Config C\n"
+                 f"    ON C.{CONFIG_ID_COL} = {_map_alias(first)}.{CONFIG_ID_COL}"]
+    else:
+        joins = ["  CROSS JOIN Config C"]
+    joins += [f"  {'INNER' if m in required else 'LEFT'} JOIN {_map_name(m)} {_map_alias(m)}\n"
+              f"    ON {_map_alias(m)}.{CONFIG_ID_COL} = C.{CONFIG_ID_COL}\n"
+              f"    AND {_map_alias(m)}.{_gran(m)} = A.{m['txn_col']}"
+              for m in required[1:] + optional]
     base_sql = (f"base_values AS (\n"
                 f"  SELECT C.{LINE_ITEM_COL}, A.{ACTUALS_YEAR_COL} AS year, A.{ACTUALS_PERIOD_COL} AS month, "
                 f"SUM(A.{ACTUALS_AMOUNT_COL}) AS Amount\n"
-                f"  FROM actuals A\n"
-                f"  CROSS JOIN Config C")
-    if where_parts:
-        base_sql += "\n  WHERE\n  " + "\n  AND ".join(where_parts)
+                f"  FROM actuals A\n" + "\n".join(joins))
+    if optional:
+        base_sql += "\n  WHERE\n    " + "\n    AND ".join(
+            f"(C.{m['config_col']} = 'ALL' OR {_map_alias(m)}.{CONFIG_ID_COL} IS NOT NULL)" for m in optional)
     base_sql += f"\n  GROUP BY C.{LINE_ITEM_COL}, A.{ACTUALS_YEAR_COL}, A.{ACTUALS_PERIOD_COL}\n)"
     ctes.append(base_sql)
 
