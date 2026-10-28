@@ -1,6 +1,6 @@
 # generate_driver_sql.py uses only the Python standard library (Python 3.8 or newer), so there is nothing to
 # install for it: `pip install -r requirements.txt` finishes without installing anything.
 #
-# epm_flatten_enrich_driver.py runs in Cloud Composer, which already provides what it imports (apache-airflow,
+# corp_challenger_model_driver_line_item_all.py runs in Cloud Composer, which already provides what it imports (apache-airflow,
 # apache-airflow-providers-google with google-cloud-bigquery, urllib3), and the py.* helpers come from the DAGs
 # folder. Airflow is not needed to run the generator - and does not run on Windows outside WSL or Docker.

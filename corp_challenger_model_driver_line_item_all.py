@@ -1,12 +1,13 @@
 """
-EPM Challenger Model driver DAG: compiles the config table's formulas into BigQuery SQL.
+corp_challenger_model_driver_line_item_all: compiles the config table's formulas into BigQuery SQL.
 
 One config-driven DAG instead of the driver_line_item view -> view_to_table DAG -> driver_line_item_all.sql chain:
-  generate_sql_query       reads the config table, checks it and builds two SQL statements (returned via XCom)
-  materialize_base_values  base_sql: line items WITHOUT a formula, fetched from actuals through the hierarchy
-                           (the generated driver_line_item.sql) -> STAGING_TABLE
-  execute_compiled_sql     formula_sql: line items WITH a formula, calculated tier by tier from STAGING_TABLE
-                           (the generated driver_line_item_all.sql) -> OUTPUT_TABLE
+  generate_sql_query    reads the config table, checks it and builds one BigQuery script (returned via XCom)
+  execute_compiled_sql  runs it: the line items WITHOUT a formula are fetched from actuals through the hierarchy into a
+                        temp table (the generated driver_line_item.sql), then OUTPUT_TABLE is truncated and refilled
+                        with the output line items, the formula ones calculated tier by tier from the temp table (the
+                        generated driver_line_item_all.sql)
+OUTPUT_TABLE is created by the table deployment (columns: output_columns()); this DAG only truncates and inserts.
 All the maths runs in BigQuery; Python only reads config metadata.
 
 Formula column (blank = the line item is fetched from actuals through its dimension columns)
@@ -60,7 +61,7 @@ RESOURCE_SA = get_resource_sa()
 PROJECT_SPACE = Variable.get('PROJECT_SPACE')
 
 # One DAG per entry. Each reads dags/<PROJECT_SPACE>/<name>/config/<name>_config.json, written by the config DAG.
-dag_configs = ["epm_challenger_model_flatten_enrich_driver"]
+dag_configs = ["corp_challenger_model_driver_line_item_all"]
 
 # ---------------------------------------------------------------------------
 # Hierarchy view columns (edm_master_incl_alt_hierarchies_v)
@@ -99,6 +100,10 @@ AMOUNT_TYPE = "FLOAT64"         # type the formula maths runs in: FLOAT64, NUMER
 RF_ZERO_IS_NO_ACTUAL = True     # ROLL_FORWARD actual=: a 0 counts as "no actual" (forecast months stored as 0)
 DRY_RUN = True                  # dry-run the generated SQL in generate_sql_query (fails early, logs bytes processed)
 DISABLE_SSL_VERIFY = False      # True only where a proxy breaks TLS verification of the BigQuery API
+
+BASE_VALUES_TABLE = "base_values"   # temp table of the script: the line items fetched from actuals, gone after the run
+REPLACE_IN_TRANSACTION = False      # True: TRUNCATE + INSERT in one transaction, so readers never see an empty
+                                    # OUTPUT_TABLE - check in dev first that BigQuery accepts TRUNCATE in a transaction
 
 # ---------------------------------------------------------------------------
 # Default field mapping fallback. One entry per dimension.
@@ -814,7 +819,7 @@ def validate_hierarchy(client, plan):
 # ---------------------------------------------------------------------------
 def build_base_sql(plan):
     """Base line items (Formula blank) fetched from actuals: one row per line item / year / month.
-    The generated, config-driven driver_line_item.sql; written to STAGING_TABLE."""
+    The generated, config-driven driver_line_item.sql; the script keeps its result in the BASE_VALUES_TABLE temp table."""
     flags, hier_cols = plan["dim_flags"], plan["hier_cols"]
     joined = [m for m in plan["dimension_map"] if flags[m["config_col"]]["use"]]
     ctes = []
@@ -1059,12 +1064,12 @@ def build_tier_ctes(k, tier, source):
 
 
 def build_formula_sql(plan):
-    """Every output line item, the formula ones calculated tier by tier from STAGING_TABLE.
-    The generated, config-driven driver_line_item_all.sql; written to OUTPUT_TABLE."""
+    """Every output line item, the formula ones calculated tier by tier from the BASE_VALUES_TABLE temp table.
+    The generated, config-driven driver_line_item_all.sql; its rows are inserted into OUTPUT_TABLE."""
     li = LINE_ITEM_COL
     ctes = [f"""monthly_summary AS (
   SELECT year, month, {li}, CAST(COALESCE(SUM(Amount), 0) AS {AMOUNT_TYPE}) AS Amount
-  FROM `{STAGING_TABLE}`
+  FROM `{BASE_VALUES_TABLE}`
   GROUP BY year, month, {li}
 )""",
             _monthly_summary_dated(),
@@ -1077,10 +1082,43 @@ def build_formula_sql(plan):
     ctes.append(f"output_items AS (\n"
                 f"  -- line items whose {CONFIG_OUTPUT_COL} is not {' / '.join(OUTPUT_NO_VALUES)}\n"
                 f"  SELECT {li} FROM UNNEST(ARRAY<STRING>[\n    {outputs}\n  ]) AS {li}\n)")
+    # year / month as STRING whatever the actuals use, so OUTPUT_TABLE has fixed column types (output_columns())
     return ("WITH\n" + ",\n\n".join(ctes) + "\n\n"
-            f"SELECT c.{li}, c.year, c.month, COALESCE(c.Amount, 0) AS Amount\n"
+            f"SELECT c.{li}, CAST(c.year AS STRING) AS year, CAST(c.month AS STRING) AS month, "
+            f"COALESCE(c.Amount, 0) AS Amount\n"
             f"FROM {source} AS c\n"
             f"JOIN output_items AS o\n  ON c.{li} = o.{li}")
+
+
+def output_columns():
+    """OUTPUT_TABLE columns this DAG fills, in the order and types the formula SQL produces (for the table deployment)."""
+    return [(LINE_ITEM_COL, "STRING"), ("year", "STRING"), ("month", "STRING"), ("Amount", AMOUNT_TYPE)]
+
+
+def build_dag_script(plan):
+    """The BigQuery script task execute_compiled_sql runs: the base line items go to a temp table (computed once, gone
+    after the run), then OUTPUT_TABLE - created by the table deployment, never by this DAG - is truncated and refilled,
+    as in corp_challenger_model_driver_line_item_view_to_table.sql."""
+    columns = ", ".join(name for name, _ in output_columns())
+    replace = (f"TRUNCATE TABLE `{OUTPUT_TABLE}`;\n\n"
+               f"INSERT INTO `{OUTPUT_TABLE}` ({columns})\n{build_formula_sql(plan)};\n")
+    if REPLACE_IN_TRANSACTION:
+        replace = f"BEGIN TRANSACTION;\n\n{replace}\nCOMMIT TRANSACTION;\n"
+    return f"CREATE TEMP TABLE {BASE_VALUES_TABLE} AS\n{build_base_sql(plan)};\n\n{replace}"
+
+
+_SQL_TYPES = {"INTEGER": "INT64", "FLOAT": "FLOAT64", "BOOLEAN": "BOOL"}     # API type names -> GoogleSQL
+
+
+def build_dry_run_sql(plan, base_schema):
+    """The script's INSERT as one statement for a dry run, which cannot see temp tables: an empty table with the base
+    SQL's result columns stands in for BASE_VALUES_TABLE (inlining the base SQL itself would expand it in every tier).
+    base_schema: [(column, type)] of the base SQL's result, from its own dry run. The dry run checks the formula SQL
+    and OUTPUT_TABLE: exists, writable, column types."""
+    fields = ", ".join(f"`{name}` {_SQL_TYPES.get(kind, kind)}" for name, kind in base_schema)
+    empty_base = f"(SELECT * FROM UNNEST(ARRAY<STRUCT<{fields}>>[]))"
+    formula_sql = build_formula_sql(plan).replace(f"`{BASE_VALUES_TABLE}`", empty_base)
+    return f"INSERT INTO `{OUTPUT_TABLE}` ({', '.join(name for name, _ in output_columns())})\n{formula_sql}"
 
 
 # ---------------------------------------------------------------------------
@@ -1089,8 +1127,7 @@ def build_formula_sql(plan):
 def _check_settings():
     """Fail with a clear message when the DAG config json is missing table settings."""
     bad = [name for name, value in (("CONFIG_TABLE", CONFIG_TABLE), ("HIERARCHY_TABLE", HIERARCHY_TABLE),
-                                    ("TRANSACTION_TABLE", TRANSACTION_TABLE), ("OUTPUT_TABLE", OUTPUT_TABLE),
-                                    ("STAGING_TABLE", STAGING_TABLE))
+                                    ("TRANSACTION_TABLE", TRANSACTION_TABLE), ("OUTPUT_TABLE", OUTPUT_TABLE))
            if len(str(value).split(".")) != 3 or "None" in str(value).split(".")]
     if bad:
         raise ValueError(f"{bad} are not project.dataset.table - check the *_dataset / *_bq_table keys "
@@ -1107,25 +1144,22 @@ def _bq_client():
     return client
 
 
-def dry_run(client, base_sql, formula_sql):
-    """Lets BigQuery check both statements without running them. The formula SQL reads the staging table, which
-    does not exist before the first run."""
-    from google.api_core.exceptions import NotFound
+def dry_run(client, plan):
+    """Lets BigQuery check the script without running it: the base SQL (sources, bytes it will process, result
+    columns) and the INSERT into OUTPUT_TABLE (fails here when the table is missing, not writable or has other column
+    types)."""
     from google.cloud import bigquery
 
-    job = client.query(base_sql, job_config=bigquery.QueryJobConfig(dry_run=True, use_query_cache=False))
-    logging.info("Base SQL dry run OK: %.2f GB to process", job.total_bytes_processed / 1e9)
-    try:
-        client.get_table(STAGING_TABLE)
-    except NotFound:
-        logging.info("%s does not exist yet (first run): formula SQL dry run skipped", STAGING_TABLE)
-        return
-    job = client.query(formula_sql, job_config=bigquery.QueryJobConfig(dry_run=True, use_query_cache=False))
-    logging.info("Formula SQL dry run OK: %.2f GB to process", job.total_bytes_processed / 1e9)
+    job = client.query(build_base_sql(plan), job_config=bigquery.QueryJobConfig(dry_run=True, use_query_cache=False))
+    logging.info("Dry run OK: the base SQL will process %.2f GB", job.total_bytes_processed / 1e9)
+    base_schema = [(field.name, field.field_type) for field in job.schema]
+    client.query(build_dry_run_sql(plan, base_schema),
+                 job_config=bigquery.QueryJobConfig(dry_run=True, use_query_cache=False))
+    logging.info("Dry run OK: INSERT INTO %s", OUTPUT_TABLE)
 
 
 def generate_sql_query(cfg=None, **context):
-    """PythonOperator callable: config -> checks -> {"base_sql", "formula_sql"} (returned via XCom)."""
+    """PythonOperator callable: config -> checks -> the BigQuery script for execute_compiled_sql (returned via XCom)."""
     if cfg:
         # Tasks run after the whole file has been parsed, when the module-level names hold the values of the
         # LAST entry in dag_configs. Re-apply the settings of THIS DAG before building SQL.
@@ -1137,18 +1171,12 @@ def generate_sql_query(cfg=None, **context):
     plan = prepare_plan(load_config_rows(client), config_cols, get_dimension_map(client))
     validate_hierarchy(client, plan)
 
-    base_sql, formula_sql = build_base_sql(plan), build_formula_sql(plan)
+    script = build_dag_script(plan)
     logging.info("Formula plan:\n%s", describe_plan(plan))
-    logging.info("Base SQL (-> %s):\n%s", STAGING_TABLE, base_sql)
-    logging.info("Formula SQL (-> %s):\n%s", OUTPUT_TABLE, formula_sql)
+    logging.info("Script (-> %s):\n%s", OUTPUT_TABLE, script)
     if DRY_RUN:
-        dry_run(client, base_sql, formula_sql)
-    return {"base_sql": base_sql, "formula_sql": formula_sql}
-
-
-def _destination(table):
-    project, dataset, table_id = table.split(".")
-    return {"projectId": project, "datasetId": dataset, "tableId": table_id}
+        dry_run(client, plan)
+    return script
 
 
 for dag_name in dag_configs:
@@ -1179,15 +1207,10 @@ for dag_name in dag_configs:
     RAW_TABLE_NAME = _param(bq_config_params, "raw_bq_table", "raw_table_name")
     TRANSACTION_TABLE = f"{PROJECT_ID_CURATE}.{RAW_DATASET}.{RAW_TABLE_NAME}"
 
-    # Publish: the output
+    # Publish: the output table (created by the table deployment; this DAG truncates and refills it)
     PUBLISH_DATASET = _param(bq_config_params, "publish_dataset")
     PUBLISH_TABLE_NAME = _param(bq_config_params, "publish_bq_table", "publish_table_name")
     OUTPUT_TABLE = f"{PROJECT_ID_CURATE}.{PUBLISH_DATASET}.{PUBLISH_TABLE_NAME}"
-
-    # Staging table: base_sql writes the line items fetched from actuals here; formula_sql reads them back.
-    # Created by the first run (CREATE_IF_NEEDED) and replaced on every run.
-    STAGING_TABLE_NAME = _param(bq_config_params, "staging_table_name", default=f"{PUBLISH_TABLE_NAME}_base_values")
-    STAGING_TABLE = f"{PROJECT_ID_CURATE}.{PUBLISH_DATASET}.{STAGING_TABLE_NAME}"
 
     # Dimension Map Metadata
     DIMENSION_MAP_TABLE = f"{PROJECT_ID_CURATE}.{ENRICH_DATASET}.{DAG_NAME}_dimensions"
@@ -1220,7 +1243,6 @@ for dag_name in dag_configs:
         "HIERARCHY_TABLE": HIERARCHY_TABLE,
         "TRANSACTION_TABLE": TRANSACTION_TABLE,
         "OUTPUT_TABLE": OUTPUT_TABLE,
-        "STAGING_TABLE": STAGING_TABLE,
         "DIMENSION_MAP_TABLE": DIMENSION_MAP_TABLE,
     }
 
@@ -1238,7 +1260,7 @@ for dag_name in dag_configs:
              }
              ) as dag:
 
-        # 1. read + check the config, build base_sql and formula_sql
+        # 1. read + check the config, build the script
         generate_sql = PythonOperator(
             task_id='generate_sql_query',
             python_callable=generate_sql_query,
@@ -1247,39 +1269,20 @@ for dag_name in dag_configs:
             dag=dag
         )
 
-        # 2. base line items from actuals -> staging table
-        materialize_base_values = BigQueryInsertJobOperator(
-            task_id='materialize_base_values',
-            configuration={
-                "query": {
-                    "query": "{{ ti.xcom_pull(task_ids='generate_sql_query')['base_sql'] }}",
-                    "useLegacySql": False,
-                    "destinationTable": _destination(STAGING_TABLE),
-                    "writeDisposition": "WRITE_TRUNCATE",
-                    "createDisposition": "CREATE_IF_NEEDED",
-                }
-            },
-            gcp_conn_id=bq_conn_id,
-            dag=dag
-        )
-
-        # 3. formula line items calculated from the staging table -> output table
+        # 2. run it: base line items -> temp table, then truncate + insert OUTPUT_TABLE
         execute_compiled_sql = BigQueryInsertJobOperator(
             task_id='execute_compiled_sql',
             configuration={
                 "query": {
-                    "query": "{{ ti.xcom_pull(task_ids='generate_sql_query')['formula_sql'] }}",
+                    "query": "{{ ti.xcom_pull(task_ids='generate_sql_query') }}",
                     "useLegacySql": False,
-                    "destinationTable": _destination(OUTPUT_TABLE),
-                    "writeDisposition": "WRITE_TRUNCATE",
-                    "createDisposition": "CREATE_IF_NEEDED",
                 }
             },
             gcp_conn_id=bq_conn_id,
             dag=dag
         )
 
-        generate_sql >> materialize_base_values >> execute_compiled_sql
+        generate_sql >> execute_compiled_sql
 
     # Register this DAG under its own name so that every entry of dag_configs is picked up
     globals()[DAG_NAME] = dag
