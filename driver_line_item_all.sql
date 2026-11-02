@@ -1,20 +1,12 @@
+CREATE OR REPLACE VIEW `oddo_project.od_enriched_epmmlops.corp_challenger_driver_line_item_all` AS
+
+-- Tier 0: Monthly summary with chronological date parsing in a single step
 WITH monthly_summary AS (
   SELECT
     year,
     month,
     LineItem,
-    COALESCE(SUM(amount), 0) AS Amount
-  FROM `oddo_project.od_enriched_epmmlops.corp_challenger_driver_line_item_table`
-  GROUP BY year, month, LineItem
-),
-
--- Tier 0 Helper: Parse chronological order across year and month for lag/rolling calculations
-monthly_summary_dated AS (
-  SELECT
-    year,
-    month,
-    LineItem,
-    Amount,
+    COALESCE(SUM(amount), 0) AS Amount,
     PARSE_DATE('%Y-%m',
       CONCAT(
         IF(STARTS_WITH(CAST(year AS STRING), 'FY'),
@@ -39,67 +31,65 @@ monthly_summary_dated AS (
           END AS STRING), 2, '0')
       )
     ) AS month_date
-  FROM monthly_summary
+  FROM `oddo_project.od_enriched_epmmlops.corp_challenger_driver_line_item_table`
+  GROUP BY year, month, LineItem
 ),
 
--- Every tier below is calculated in one pass over its input, driven by a config list
--- with one row per formula. BigQuery re-runs a CTE every time it is referenced, so a
--- UNION ALL branch per formula multiplied the work at every tier (the query became
--- too complex to plan). To add a formula, add a row to its tier's list.
-
--- Tier 1: Net Adds Calculations (Level 1 Derived Line Items)
--- Formula config: LineItem = plus_item - minus_item
-level1_formulas AS (
-  SELECT *
-  FROM UNNEST(ARRAY<STRUCT<LineItem STRING, plus_item STRING, minus_item STRING>>[
-    ('Calculated Consumer Prepaid Phone Net Adds', 'Calculated Consumer Prepaid Phone SafeLink Gross Adds', 'Calculated Consumer Prepaid Phone SafeLink Disconnects'),
-    ('Consumer Prepaid Phone Net Adds',            'Calculated Consumer Prepaid Phone Equip. Gross Adds',   'Calculated Consumer Prepaid Phone Equip. Disconnects'),
-    ('Calculated Consumer Prepaid Net Adds',       'Calculated Consumer Prepaid SafeLink Gross Adds',       'Calculated Consumer Prepaid SafeLink Disconnects'),
-    ('Consumer Prepaid Net Adds',                  'Calculated Consumer Prepaid Equip. Gross Adds',         'Calculated Consumer Prepaid Equip. Disconnects'),
-    ('Consumer Phone Net Adds',                    'Consumer Phone Gross Adds',                             'Consumer Phone Disconnects'),
-    ('Business Phone Net Adds',                    'Business Phone Gross Adds',                             'Business Phone Disconnects'),
-    ('Consumer FWA Net Adds',                      'Consumer FWA Gross Adds',                               'Consumer FWA Disconnects'),
-    ('Business FWA Net Adds',                      'Business FWA Gross Adds',                               'Business FWA Disconnects'),
-    ('Consumer PostPaid Net Adds',                 'Consumer PostPaid Gross Adds',                          'Consumer PostPaid Disconnects'),
-    ('Business PostPaid Net Adds',                 'Business PostPaid Gross Adds',                          'Business PostPaid Disconnects')
-  ])
-),
-
+-- Tier 1: Net Adds Calculations
 level1_net_adds AS (
   SELECT
-    f.LineItem, d.year, d.month, d.month_date,
-    SUM(CASE
-      WHEN d.LineItem = f.plus_item THEN d.Amount
-      WHEN d.LineItem = f.minus_item THEN -d.Amount
-      ELSE 0
-    END) AS Amount
-  FROM monthly_summary_dated AS d
-  CROSS JOIN level1_formulas AS f
-  GROUP BY f.LineItem, d.year, d.month, d.month_date
+    item.LineItem,
+    year,
+    month,
+    month_date,
+    item.Amount
+  FROM (
+    SELECT
+      year, month, month_date,
+      [
+        STRUCT('Calculated Consumer Prepaid Phone Net Adds' AS LineItem,
+          SUM(CASE WHEN LineItem = 'Calculated Consumer Prepaid Phone SafeLink Gross Adds' THEN Amount WHEN LineItem = 'Calculated Consumer Prepaid Phone SafeLink Disconnects' THEN -Amount ELSE 0 END) AS Amount),
+        STRUCT('Consumer Prepaid Phone Net Adds',
+          SUM(CASE WHEN LineItem = 'Calculated Consumer Prepaid Phone Equip. Gross Adds' THEN Amount WHEN LineItem = 'Calculated Consumer Prepaid Phone Equip. Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Calculated Consumer Prepaid Net Adds',
+          SUM(CASE WHEN LineItem = 'Calculated Consumer Prepaid SafeLink Gross Adds' THEN Amount WHEN LineItem = 'Calculated Consumer Prepaid SafeLink Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Consumer Prepaid Net Adds',
+          SUM(CASE WHEN LineItem = 'Calculated Consumer Prepaid Equip. Gross Adds' THEN Amount WHEN LineItem = 'Calculated Consumer Prepaid Equip. Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Consumer Phone Net Adds',
+          SUM(CASE WHEN LineItem = 'Consumer Phone Gross Adds' THEN Amount WHEN LineItem = 'Consumer Phone Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Business Phone Net Adds',
+          SUM(CASE WHEN LineItem = 'Business Phone Gross Adds' THEN Amount WHEN LineItem = 'Business Phone Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Consumer FWA Net Adds',
+          SUM(CASE WHEN LineItem = 'Consumer FWA Gross Adds' THEN Amount WHEN LineItem = 'Consumer FWA Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Business FWA Net Adds',
+          SUM(CASE WHEN LineItem = 'Business FWA Gross Adds' THEN Amount WHEN LineItem = 'Business FWA Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Consumer PostPaid Net Adds',
+          SUM(CASE WHEN LineItem = 'Consumer PostPaid Gross Adds' THEN Amount WHEN LineItem = 'Consumer PostPaid Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Business PostPaid Net Adds',
+          SUM(CASE WHEN LineItem = 'Business PostPaid Gross Adds' THEN Amount WHEN LineItem = 'Business PostPaid Disconnects' THEN -Amount ELSE 0 END))
+      ] AS items
+    FROM monthly_summary
+    GROUP BY year, month, month_date
+  ), UNNEST(items) AS item
 ),
 
--- Source rows + Level 1 items. If the source ever carries a line item with the
--- same name as a Level 1 item, the calculated one wins (prevents double counting).
-combined_level1 AS (
-  SELECT d.year, d.month, d.month_date, d.LineItem, d.Amount
-  FROM monthly_summary_dated AS d
-  LEFT JOIN level1_formulas AS l1
-    ON d.LineItem = l1.LineItem
-  WHERE l1.LineItem IS NULL   -- anti-join: keep source rows with no Level 1 match
-  UNION ALL
-  SELECT year, month, month_date, LineItem, Amount FROM level1_net_adds
+-- Tier 2a: Prepaid Net Adds excl. Safelink
+level2_excl_safelink AS (
+  SELECT
+    IF(LineItem LIKE '%Phone%',
+      'Consumer Prepaid Phone Net Adds excl. Safelink',
+      'Consumer Prepaid Net Adds excl. Safelink') AS LineItem,
+    year, month, month_date,
+    SUM(IF(LineItem LIKE 'Calculated%', -Amount, Amount)) AS Amount
+  FROM level1_net_adds
+  WHERE LineItem IN (
+    'Consumer Prepaid Phone Net Adds', 'Calculated Consumer Prepaid Phone Net Adds',
+    'Consumer Prepaid Net Adds', 'Calculated Consumer Prepaid Net Adds'
+  )
+  GROUP BY 1, year, month, month_date
 ),
 
--- Tier 2: Connections Roll-Forward Calculations (Level 2 Derived Line Items)
---
--- Connections(t) = Opening(t) + Net Adds(t) + Connections Adj(t)
--- Opening(t)     = actual Connections(t-1) if it exists, otherwise calculated Connections(t-1)
---
--- The recursion is resolved without a loop: anchor on the latest month before t
--- that has an actual, then add every month's movement since that anchor:
---   Connections(t) = Actual(anchor) + SUM(Net Adds + Adj) for months in (anchor, t]
-
--- Segment config: one row per roll-forward (5, 6, 13, 14)
+-- Tier 2b: Connections Roll-Forward Calculations
 connection_segments AS (
   SELECT *
   FROM UNNEST(ARRAY<STRUCT<connections_item STRING, net_adds_item STRING, adj_item STRING>>[
@@ -110,20 +100,62 @@ connection_segments AS (
   ])
 ),
 
--- One row per segment per month: actual connections (NULL if none) and the month's movement
+-- Beginning balances for every year, shifted from Jan back to Dec of previous year,
+-- so each year re-anchors to the EPM opening balance
+beginning_seeds AS (
+  SELECT
+    REPLACE(LineItem, ' Beginning', '') AS LineItem,
+    IF(STARTS_WITH(CAST(year AS STRING), 'FY'),
+      FORMAT_DATE('FY%y', DATE_SUB(month_date, INTERVAL 1 MONTH)),
+      FORMAT_DATE('%Y', DATE_SUB(month_date, INTERVAL 1 MONTH))
+    ) AS year,
+    'Dec' AS month,
+    DATE_SUB(month_date, INTERVAL 1 MONTH) AS month_date,
+    Amount
+  FROM monthly_summary
+  WHERE LineItem LIKE '%Connections Beginning'
+),
+
+-- Latest month with closed actuals; later months (e.g. open-period Adj plugs) are excluded
+last_actual_month AS (
+  SELECT MAX(month_date) AS max_month_date
+  FROM monthly_summary
+  WHERE LineItem IN ('Consumer Phone Gross Adds', 'Consumer Phone Disconnects')
+    AND Amount <> 0
+),
+
 connections_inputs AS (
   SELECT
     s.connections_item AS LineItem,
     c.year, c.month, c.month_date,
-    -- NULL = no actual for this month. Zeros are treated as "no actual" too,
-    -- in case forecast months are stored as 0 rather than left blank.
-    -- (This NULL is an internal marker only; it never reaches the output.)
     NULLIF(SUM(IF(c.LineItem = s.connections_item, c.Amount, NULL)), 0) AS actual_connections,
     COALESCE(SUM(IF(c.LineItem IN (s.net_adds_item, s.adj_item), c.Amount, NULL)), 0) AS movement
-  FROM combined_level1 AS c
+  FROM (
+    SELECT year, month, month_date, LineItem, Amount
+    FROM monthly_summary
+    WHERE LineItem IN (
+      'Consumer Phone Connections', 'Consumer Phone Connections Adj',
+      'Business Phone Connections', 'Business Phone Connections Adj',
+      'Consumer FWA Connections',   'Consumer FWA Connections Adj',
+      'Business FWA Connections',   'Business FWA Connections Adj'
+    )
+    UNION ALL
+    SELECT year, month, month_date, LineItem, Amount
+    FROM level1_net_adds
+    WHERE LineItem IN (
+      'Consumer Phone Net Adds', 'Business Phone Net Adds',
+      'Consumer FWA Net Adds',   'Business FWA Net Adds'
+    )
+    UNION ALL
+    -- Injects the Dec previous year seeds as actual anchors
+    SELECT year, month, month_date, LineItem, Amount
+    FROM beginning_seeds
+  ) AS c
   JOIN connection_segments AS s
     ON c.LineItem IN (s.connections_item, s.net_adds_item, s.adj_item)
+  CROSS JOIN last_actual_month AS l
   WHERE c.month_date IS NOT NULL
+    AND c.month_date <= l.max_month_date
   GROUP BY s.connections_item, c.year, c.month, c.month_date
 ),
 
@@ -137,26 +169,14 @@ connections_running AS (
   FROM connections_inputs
 ),
 
--- Formula config: Net Adds excl. Safelink = plus_item - minus_item (both Level 1 items)
-level2_formulas AS (
-  SELECT *
-  FROM UNNEST(ARRAY<STRUCT<LineItem STRING, plus_item STRING, minus_item STRING>>[
-    ('Consumer Prepaid Phone Net Adds excl. Safelink', 'Consumer Prepaid Phone Net Adds', 'Calculated Consumer Prepaid Phone Net Adds'),
-    ('Consumer Prepaid Net Adds excl. Safelink',       'Consumer Prepaid Net Adds',       'Calculated Consumer Prepaid Net Adds')
-  ])
-),
-
 level2_connections AS (
   SELECT
     LineItem, year, month, month_date,
     COALESCE(
-      -- latest prior actual + movement accumulated since that month
+      actual_connections,
       LAST_VALUE(actual_connections IGNORE NULLS) OVER w_prior
         + cum_movement
         - LAST_VALUE(IF(actual_connections IS NOT NULL, cum_movement, NULL) IGNORE NULLS) OVER w_prior,
-      -- first month with an actual (nothing prior to roll from): use its own actual
-      actual_connections,
-      -- no actual yet at all: roll forward from an opening balance of 0
       cum_movement
     ) AS Amount
   FROM connections_running
@@ -164,114 +184,81 @@ level2_connections AS (
     PARTITION BY LineItem ORDER BY month_date
     ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
   )
-
-  UNION ALL
-
-  -- Net Adds excl. Safelink, from the Level 1 items
-  SELECT
-    f.LineItem, n.year, n.month, n.month_date,
-    SUM(CASE
-      WHEN n.LineItem = f.plus_item THEN n.Amount
-      WHEN n.LineItem = f.minus_item THEN -n.Amount
-      ELSE 0
-    END) AS Amount
-  FROM level1_net_adds AS n
-  CROSS JOIN level2_formulas AS f
-  GROUP BY f.LineItem, n.year, n.month, n.month_date
 ),
 
--- Calculated connections replace the source connections rows (one row per month)
-combined_level2 AS (
-  SELECT c.year, c.month, c.month_date, c.LineItem, c.Amount
-  FROM combined_level1 AS c
-  LEFT JOIN connection_segments AS s
-    ON c.LineItem = s.connections_item
-  WHERE s.connections_item IS NULL   -- anti-join: drop source connections rows
-  UNION ALL
-  SELECT year, month, month_date, LineItem, Amount FROM level2_connections
-),
-
--- Tier 3: 2-Month Rolling Average Connections (Level 3 Derived Line Items)
--- The first month has no prior month for LAG. Instead of 0 (which would halve
--- the average and double churn), the prior month falls back to the current
--- month, so the first month's average equals its own connections.
--- Formula config: one row per average (7, 8, 15, 16, 19, 20)
-level3_formulas AS (
-  SELECT *
-  FROM UNNEST(ARRAY<STRUCT<LineItem STRING, connections_item STRING>>[
-    ('Consumer Average Phone Connections',        'Consumer Phone Connections'),
-    ('Business Average Phone Connections',        'Business Phone Connections'),
-    ('Consumer FWA Average Connections',          'Consumer FWA Connections'),
-    ('Business FWA Average Connections',          'Business FWA Connections'),
-    ('Consumer - Fios Average Fibre Connections', 'Consumer - Fios Fibre Connections'),
-    ('Business - Fios Average Fibre Connections', 'Business - Fios Fibre Connections')
-  ])
-),
-
+-- Tier 3: 2-Month Rolling Average Connections
 level3_avg_connections AS (
   SELECT
-    f.LineItem, c.year, c.month, c.month_date,
-    (c.Amount + COALESCE(LAG(c.Amount) OVER (PARTITION BY c.LineItem ORDER BY c.month_date), c.Amount)) / 2.0 AS Amount
-  FROM combined_level2 AS c
-  JOIN level3_formulas AS f
-    ON c.LineItem = f.connections_item
+    CASE LineItem
+      WHEN 'Consumer Phone Connections' THEN 'Consumer Average Phone Connections'
+      WHEN 'Business Phone Connections' THEN 'Business Average Phone Connections'
+      WHEN 'Consumer FWA Connections' THEN 'Consumer FWA Average Connections'
+      WHEN 'Business FWA Connections' THEN 'Business FWA Average Connections'
+      WHEN 'Consumer - Fios Fibre Connections' THEN 'Consumer - Fios Average Fibre Connections'
+      WHEN 'Business - Fios Fibre Connections' THEN 'Business - Fios Average Fibre Connections'
+    END AS LineItem,
+    year, month, month_date,
+    (Amount + COALESCE(LAG(Amount) OVER (PARTITION BY LineItem ORDER BY month_date), Amount)) / 2.0 AS Amount
+  FROM (
+    SELECT LineItem, year, month, month_date, Amount FROM level2_connections
+    UNION ALL
+    SELECT LineItem, year, month, month_date, Amount FROM monthly_summary
+    WHERE LineItem IN ('Consumer - Fios Fibre Connections', 'Business - Fios Fibre Connections')
+  )
 ),
 
-combined_level3 AS (
-  SELECT year, month, month_date, LineItem, Amount FROM combined_level2
-  UNION ALL
-  SELECT year, month, month_date, LineItem, Amount FROM level3_avg_connections
-),
-
--- Tier 4: Churn % Calculations (Level 4 Derived Line Items)
--- SAFE_DIVIDE returns NULL when average connections is 0; that becomes 0% churn.
--- Formula config: one row per churn % (9, 10, 17, 18)
-level4_formulas AS (
-  SELECT *
-  FROM UNNEST(ARRAY<STRUCT<LineItem STRING, disconnects_item STRING, avg_connections_item STRING>>[
-    ('Consumer Phone Churn %', 'Consumer Phone Disconnects', 'Consumer Average Phone Connections'),
-    ('Business Phone Churn %', 'Business Phone Disconnects', 'Business Average Phone Connections'),
-    ('Consumer FWA Churn %',   'Consumer FWA Disconnects',   'Consumer FWA Average Connections'),
-    ('Business FWA Churn %',   'Business FWA Disconnects',   'Business FWA Average Connections')
-  ])
-),
-
+-- Tier 4: Churn % Calculations
 level4_churn AS (
   SELECT
-    f.LineItem, c.year, c.month, c.month_date,
+    CASE
+      WHEN LineItem IN ('Consumer Phone Disconnects', 'Consumer Average Phone Connections') THEN 'Consumer Phone Churn %'
+      WHEN LineItem IN ('Business Phone Disconnects', 'Business Average Phone Connections') THEN 'Business Phone Churn %'
+      WHEN LineItem IN ('Consumer FWA Disconnects', 'Consumer FWA Average Connections') THEN 'Consumer FWA Churn %'
+      WHEN LineItem IN ('Business FWA Disconnects', 'Business FWA Average Connections') THEN 'Business FWA Churn %'
+    END AS LineItem,
+    year, month, month_date,
     COALESCE(SAFE_DIVIDE(
-      SUM(CASE WHEN c.LineItem = f.disconnects_item THEN c.Amount ELSE 0 END),
-      SUM(CASE WHEN c.LineItem = f.avg_connections_item THEN c.Amount ELSE 0 END)
+      SUM(IF(ENDS_WITH(LineItem, 'Disconnects'), Amount, 0)),
+      SUM(IF(LineItem LIKE '%Average%', Amount, 0))
     ), 0) AS Amount
-  FROM combined_level3 AS c
-  CROSS JOIN level4_formulas AS f
-  GROUP BY f.LineItem, c.year, c.month, c.month_date
+  FROM (
+    SELECT LineItem, year, month, month_date, Amount FROM monthly_summary
+    WHERE LineItem IN ('Consumer Phone Disconnects', 'Business Phone Disconnects', 'Consumer FWA Disconnects', 'Business FWA Disconnects')
+    UNION ALL
+    SELECT LineItem, year, month, month_date, Amount FROM level3_avg_connections
+    WHERE LineItem IN ('Consumer Average Phone Connections', 'Business Average Phone Connections', 'Consumer FWA Average Connections', 'Business FWA Average Connections')
+  )
+  GROUP BY 1, year, month, month_date
 ),
 
 -- Consolidated calculated line items table
 calculated_line_item AS (
-  SELECT LineItem, year, month, Amount FROM level1_net_adds
+  SELECT LineItem, year, month, month_date, Amount FROM level1_net_adds
   UNION ALL
-  SELECT LineItem, year, month, Amount FROM level2_connections
+  SELECT LineItem, year, month, month_date, Amount FROM level2_excl_safelink
   UNION ALL
-  SELECT LineItem, year, month, Amount FROM level3_avg_connections
+  SELECT LineItem, year, month, month_date, Amount FROM level2_connections
   UNION ALL
-  SELECT LineItem, year, month, Amount FROM level4_churn
+  SELECT LineItem, year, month, month_date, Amount FROM level3_avg_connections
+  UNION ALL
+  SELECT LineItem, year, month, month_date, Amount FROM level4_churn
 )
 
--- Combined output: raw base items + calculated items
--- (base items that share a name with a calculated item are dropped, so each
---  LineItem appears once per month; the final COALESCE is a last safety net)
-SELECT m.LineItem, m.year, m.month, COALESCE(m.Amount, 0) AS Amount
-FROM monthly_summary AS m
-LEFT JOIN (SELECT DISTINCT LineItem FROM calculated_line_item) AS calc
-  ON m.LineItem = calc.LineItem
-WHERE m.LineItem NOT LIKE '%Calculated%'
-  AND calc.LineItem IS NULL   -- anti-join: drop base rows superseded by a calculated item
+-- Combined output: raw base items + calculated items ordered chronologically
+SELECT LineItem, year, month, Amount
+FROM (
+  SELECT m.LineItem, m.year, m.month, m.month_date, COALESCE(m.Amount, 0) AS Amount
+  FROM monthly_summary AS m
+  LEFT JOIN (SELECT DISTINCT LineItem FROM calculated_line_item) AS calc
+    ON m.LineItem = calc.LineItem
+  WHERE m.LineItem NOT LIKE '%Calculated%'
+    AND calc.LineItem IS NULL
+    AND m.LineItem NOT LIKE '%Beginning%'   -- Drops all raw beginning balance setup rows
 
-UNION ALL
+  UNION ALL
 
-SELECT LineItem, year, month, COALESCE(Amount, 0) AS Amount
-FROM calculated_line_item
-WHERE LineItem NOT LIKE '%Calculated%'
-ORDER BY LineItem, year, month
+  SELECT LineItem, year, month, month_date, COALESCE(Amount, 0) AS Amount
+  FROM calculated_line_item
+  WHERE LineItem NOT LIKE '%Calculated%'
+)
+ORDER BY LineItem, month_date;

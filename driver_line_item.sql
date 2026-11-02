@@ -1,3 +1,4 @@
+CREATE OR REPLACE VIEW `oddo_project.od_enriched_epmmlops.corp_challenger_driver_line_item` AS
 WITH
   Config AS (
     SELECT
@@ -86,7 +87,8 @@ WITH
     FROM Config C
     INNER JOIN hierarchy_flat H
       ON H.filter_value = C.Market AND H.dimension_name = 'Market'
-    WHERE C.Market <> 'ALL'
+    WHERE
+      C.Market <> 'ALL'
   ),
   contractterm_mapping AS (
     SELECT DISTINCT C.Config_ID, H.granular_node AS ContractTermGranular
@@ -145,7 +147,8 @@ WITH
       Distribution_Channel,
       Source,
       SUM(amount) AS amount
-    FROM `oddo_project.od_published_epm.epm_p00all_actuals_fullhist_v`
+    FROM
+      `oddo_project.od_published_epm.epm_p00all_actuals_fullhist_v`
     WHERE
       year IN (
         SELECT
@@ -224,4 +227,4 @@ WHERE
 GROUP BY
   C.LineItem,
   A.year,
-  A.period
+  A.period;
