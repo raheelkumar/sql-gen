@@ -19,8 +19,14 @@ Formula column (blank = the line item is fetched from actuals through its dimens
   ROLLING_SUM(x, n)           sum of this month and the n-1 months before it
   ROLL_FORWARD(connections=[this line item], net_adds=[A], adj=[B], actual=[C])
                               this(t) = this(t-1) + A(t) + B(t), starting from 0. connections=, adj= and actual= are
-                              optional; connections= must name the formula's own line item. With actual=, the roll
-                              forward restarts from the latest earlier month in which C has a (non-zero) value.
+                              optional; connections= must name the formula's own line item. A month in which C has a
+                              (non-zero) value shows C, and the roll forward restarts from it.
+                              Beginning balance: the line item [<this line item> Beginning], if there is one, holds the
+                              balance at the start of a month = the end of the month before, which shows it (December
+                              shows January's) and the roll forward restarts from it, e.g. every year from EPM's.
+                              The roll forward runs through the last month with actuals: the latest month in which a
+                              line item behind any net_adds= has a (non-zero) value; later months (open-period Adj
+                              plugs) are left out, and so are the line items calculated from a roll forward.
   Rules: a formula cannot reference itself, directly or through other formulas (connections= excepted);
          LAG / ROLLING_* cannot be nested inside each other; ROLL_FORWARD is a whole formula and takes [line items];
          a formula line item has exactly one config row and is never fetched from actuals.
@@ -97,7 +103,8 @@ EXCLUDED_PERIODS = ()           # periods never read from actuals, e.g. ("13",) 
 FISCAL_YEAR_START_MONTH = 1     # 1 = fiscal year = calendar year; 4 = FY26 runs Apr 2025 - Mar 2026 (named by end year)
 
 AMOUNT_TYPE = "FLOAT64"         # type the formula maths runs in: FLOAT64, NUMERIC or BIGNUMERIC
-RF_ZERO_IS_NO_ACTUAL = True     # ROLL_FORWARD actual=: a 0 counts as "no actual" (forecast months stored as 0)
+RF_ZERO_IS_NO_ACTUAL = True     # ROLL_FORWARD actual= and beginning balances: 0 = none (forecast months stored as 0)
+RF_BEGINNING_SUFFIX = " Beginning"  # "<ROLL_FORWARD line item> Beginning" is that roll forward's beginning balance
 DRY_RUN = True                  # dry-run the generated SQL in generate_sql_query (fails early, logs bytes processed)
 DISABLE_SSL_VERIFY = False      # True only where a proxy breaks TLS verification of the BigQuery API
 
@@ -654,6 +661,20 @@ def plan_formulas(rows):
     if errors:
         raise ValueError("Config problems:\n  " + "\n  ".join(errors))
 
+    # Beginning balance of a roll forward, by name: [<roll forward line item> Beginning]
+    beginnings = set()
+    for item in items.values():
+        if item["kind"] == "rollforward":
+            beginning = known.get((item["name"] + RF_BEGINNING_SUFFIX).lower())
+            if beginning:
+                item["rf"]["beginning"] = beginning
+                item["deps"].add(beginning)
+                beginnings.add(beginning)
+    stray = [n for n in items if n.lower().endswith(RF_BEGINNING_SUFFIX.lower()) and n not in beginnings]
+    if stray:
+        logging.warning("Line items ending in '%s' with no ROLL_FORWARD line item of the name without it, so not used "
+                        "as a beginning balance: %s", RF_BEGINNING_SUFFIX.strip(), stray)
+
     depth = {}
 
     def visit(name, path):
@@ -680,6 +701,21 @@ def plan_formulas(rows):
             columns.add(item["col"])
             tiers.setdefault(d, []).append(item)
 
+    def base_behind(name):
+        """The base line items a line item is calculated from (itself when it is one)."""
+        item = items[name]
+        return {name} if item["kind"] == "base" else set().union(*(base_behind(dep) for dep in item["deps"]))
+
+    # A roll forward runs through the last month with actuals: the latest month in which a base line item behind a
+    # net_adds= has a value (later months only hold open-period plugs, e.g. Adj). Line items calculated from a roll
+    # forward stop there too.
+    last_actual = set().union(*(base_behind(it["rf"]["net_adds"]) for it in items.values()
+                                if it["kind"] == "rollforward"))
+    for d in sorted(tiers):
+        for item in tiers[d]:
+            item["to_last_actual"] = bool(last_actual) and (
+                item["kind"] == "rollforward" or any(items[dep].get("to_last_actual") for dep in item["deps"]))
+
     used = set().union(*(item["deps"] for item in items.values()))
     unused = [n for n, it in items.items() if it["kind"] == "base" and not it["is_output"] and n not in used]
     if unused:
@@ -688,7 +724,8 @@ def plan_formulas(rows):
     return {"items": items,
             "tiers": [sorted(tiers[d], key=lambda it: _sort_key(it["cid"])) for d in sorted(tiers)],
             "output_items": sorted((n for n, it in items.items() if it["is_output"]),
-                                   key=lambda n: _sort_key(items[n]["cid"]))}
+                                   key=lambda n: _sort_key(items[n]["cid"])),
+            "last_actual_items": sorted(last_actual, key=lambda n: _sort_key(items[n]["cid"]))}
 
 
 def prepare_plan(rows, config_cols, dimension_map):
@@ -719,6 +756,13 @@ def describe_plan(plan):
     for k, tier in enumerate(plan["tiers"], start=1):
         lines.append(f"Tier {k}: {len(tier)} line items")
         lines += [f"  {it['name']} = {_one_line(it['formula'])}" for it in tier]
+    beginnings = [f"  {it['rf']['beginning']} -> {it['name']}" for it in plan["items"].values()
+                  if it["kind"] == "rollforward" and it["rf"].get("beginning")]
+    if beginnings:
+        lines += ["Beginning balances:"] + beginnings
+    if plan["last_actual_items"]:
+        lines.append(f"Roll forwards run through the last month with a value in: "
+                     f"{', '.join(plan['last_actual_items'])}")
     return "\n".join(lines)
 
 
@@ -967,7 +1011,8 @@ def _monthly_summary_dated():
 def build_tier_ctes(k, tier, source):
     """CTEs of one tier: its formulas calculated from `source` (every row of the earlier tiers), then combined_<k>.
     All formulas of the tier are calculated in ONE grouped pass: BigQuery re-runs a CTE for every reference, so one
-    branch per formula would multiply the work with every tier."""
+    branch per formula would multiply the work with every tier. Roll forwards, and the line items calculated from
+    them, keep only the months up to last_actual_month."""
     li = LINE_ITEM_COL
     ctes, parts = [], []
     calc = [it for it in tier if it["kind"] == "formula"]
@@ -980,37 +1025,48 @@ def build_tier_ctes(k, tier, source):
                     f"  -- one row per month; [X] = SUM(IF({li} = 'X', Amount, 0))\n"
                     f"  SELECT\n    year, month, month_date,\n" + ",\n".join(cols) +
                     f"\n  FROM {source}\n  GROUP BY year, month, month_date\n)")
-        pairs = ",\n    ".join(f"({_lit(it['name'])}, calc.{it['col']})" for it in calc)
-        parts.append(f"  SELECT calc.year, calc.month, calc.month_date, item.{li}, "
-                     f"COALESCE(item.Amount, 0) AS Amount\n"
-                     f"  FROM tier_{k}_calc AS calc\n"
-                     f"  CROSS JOIN UNNEST(ARRAY<STRUCT<{li} STRING, Amount {AMOUNT_TYPE}>>[\n"
-                     f"    {pairs}\n  ]) AS item")
+        cut = any(it["to_last_actual"] for it in calc)
+        pairs = ",\n    ".join(f"({_lit(it['name'])}, calc.{it['col']}"
+                               + (f", {str(it['to_last_actual']).upper()}" if cut else "") + ")" for it in calc)
+        fields = f"{li} STRING, Amount {AMOUNT_TYPE}" + (", to_last_actual BOOL" if cut else "")
+        part = (f"  SELECT calc.year, calc.month, calc.month_date, item.{li}, COALESCE(item.Amount, 0) AS Amount\n"
+                f"  FROM tier_{k}_calc AS calc\n"
+                + ("  CROSS JOIN last_actual_month AS l\n" if cut else "")
+                + f"  CROSS JOIN UNNEST(ARRAY<STRUCT<{fields}>>[\n    {pairs}\n  ]) AS item")
+        if cut:
+            part += ("\n  -- a line item calculated from a roll forward stops where the roll forward does"
+                     "\n  WHERE NOT item.to_last_actual OR calc.month_date <= l.max_month_date")
+        parts.append(part)
 
     if rolls:
-        # Roll-forward: this(t) = this(t-1) + net_adds(t) + adj(t). The recursion is resolved without a loop:
-        # anchor on the latest month before t with an actual (if any), then add every month's movement since:
-        #   this(t) = actual(anchor) + SUM(net_adds + adj) over (anchor, t]; no actual yet -> running sum from 0.
+        # Roll-forward: this(t) = this(t-1) + net_adds(t) + adj(t). The recursion is resolved without a loop: some
+        # months have a known closing balance (an actual, or from a beginning balance); every other month is the latest
+        # known balance before it + every month's movement since:
+        #   this(t) = known(anchor) + SUM(net_adds + adj) over (anchor, t]; nothing known yet -> running sum from 0.
         segments = ",\n    ".join(
             f"-- {_one_line(it['name'])} = {_one_line(it['formula'])}  ({CONFIG_ID_COL} {it['cid']})\n    ("
             + ", ".join(_lit(v) if v else "NULL"
-                        for v in (it["name"], it["rf"]["net_adds"], it["rf"].get("adj"), it["rf"].get("actual")))
+                        for v in (it["name"], it["rf"]["net_adds"], it["rf"].get("adj"), it["rf"].get("actual"),
+                                  it["rf"].get("beginning")))
             + ")"
             for it in rolls)
         actual_sql = f"SUM(IF(c.{li} = s.actual_item, c.Amount, NULL))"
+        beginning_sql = f"SUM(IF(c.{li} = s.beginning_item, c.Amount, NULL))"
         if RF_ZERO_IS_NO_ACTUAL:
-            actual_sql = f"NULLIF({actual_sql}, 0)"
+            actual_sql, beginning_sql = f"NULLIF({actual_sql}, 0)", f"NULLIF({beginning_sql}, 0)"
         ctes.append(f"""tier_{k}_rf_segments AS (
   SELECT *
-  FROM UNNEST(ARRAY<STRUCT<line_item STRING, net_adds_item STRING, adj_item STRING, actual_item STRING>>[
+  FROM UNNEST(ARRAY<STRUCT<line_item STRING, net_adds_item STRING, adj_item STRING, actual_item STRING,
+                           beginning_item STRING>>[
     {segments}
   ])
 )""")
         ctes.append(f"""tier_{k}_rf_inputs AS (
-  -- one row per roll-forward per month: the actual (NULL = none) and the month's movement
+  -- one row per roll-forward per month: the actual and the beginning balance (NULL = none) and the month's movement
   SELECT
     s.line_item AS {li}, c.year, c.month, c.month_date,
     {actual_sql} AS actual_value,
+    {beginning_sql} AS beginning_value,
     SUM(IF(c.{li} IN (s.net_adds_item, s.adj_item), c.Amount, 0)) AS movement
   FROM {source} AS c
   CROSS JOIN tier_{k}_rf_segments AS s
@@ -1019,23 +1075,31 @@ def build_tier_ctes(k, tier, source):
         ctes.append(f"""tier_{k}_rf_running AS (
   SELECT
     *,
+    -- the month's closing balance, where it is known: the actual, else the next month's beginning balance (December
+    -- shows January's), else the month's own beginning balance + its movement (the first month of the data)
+    COALESCE(
+      actual_value,
+      IF(LEAD(month_date) OVER w = DATE_ADD(month_date, INTERVAL 1 MONTH), LEAD(beginning_value) OVER w, NULL),
+      beginning_value + movement
+    ) AS known_value,
     SUM(movement) OVER (
       PARTITION BY {li} ORDER BY month_date
       ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
     ) AS cum_movement
   FROM tier_{k}_rf_inputs
+  WINDOW w AS (PARTITION BY {li} ORDER BY month_date)
 )""")
         ctes.append(f"""tier_{k}_rf AS (
   SELECT
     {li}, year, month, month_date,
     COALESCE(
-      -- latest prior actual + movement accumulated since that month
-      LAST_VALUE(actual_value IGNORE NULLS) OVER w_prior
+      -- a known closing balance wins in its own month
+      known_value,
+      -- latest earlier known balance + movement accumulated since that month
+      LAST_VALUE(known_value IGNORE NULLS) OVER w_prior
         + cum_movement
-        - LAST_VALUE(IF(actual_value IS NOT NULL, cum_movement, NULL) IGNORE NULLS) OVER w_prior,
-      -- first month with an actual (nothing prior to roll from): its own actual
-      actual_value,
-      -- no actual yet: roll forward from an opening balance of 0
+        - LAST_VALUE(IF(known_value IS NOT NULL, cum_movement, NULL) IGNORE NULLS) OVER w_prior,
+      -- nothing known yet: roll forward from an opening balance of 0
       cum_movement
     ) AS Amount
   FROM tier_{k}_rf_running
@@ -1044,8 +1108,12 @@ def build_tier_ctes(k, tier, source):
     ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
   )
 )""")
-        parts.append(f"  SELECT year, month, month_date, {li}, COALESCE(Amount, 0) AS Amount\n"
-                     f"  FROM tier_{k}_rf")
+        part = (f"  SELECT year, month, month_date, {li}, COALESCE(Amount, 0) AS Amount\n"
+                f"  FROM tier_{k}_rf")
+        if any(it["to_last_actual"] for it in rolls):
+            # filtered only now: the months after it still give LEAD the next January's beginning balance
+            part += "\n  CROSS JOIN last_actual_month AS l\n  WHERE month_date <= l.max_month_date"
+        parts.append(part)
 
     names = ",\n    ".join(_lit(it["name"]) for it in tier)
     ctes.append(f"tier_{k} AS (\n" + "\n  UNION ALL\n".join(parts) + "\n)")
@@ -1074,6 +1142,17 @@ def build_formula_sql(plan):
 )""",
             _monthly_summary_dated(),
             f"combined_0 AS (\n  SELECT year, month, month_date, {li}, Amount FROM monthly_summary_dated\n)"]
+    if plan["last_actual_items"]:
+        names = ",\n    ".join(_lit(n) for n in plan["last_actual_items"])
+        ctes.append(f"""last_actual_month AS (
+  -- roll forwards, and the line items calculated from them, run through this month: the latest month in which a line
+  -- item behind a net_adds= has a value (later months only hold open-period plugs, e.g. Adj)
+  SELECT MAX(month_date) AS max_month_date
+  FROM monthly_summary_dated
+  WHERE Amount <> 0 AND {li} IN (
+    {names}
+  )
+)""")
     source = "combined_0"
     for k, tier in enumerate(plan["tiers"], start=1):
         ctes += build_tier_ctes(k, tier, source)
