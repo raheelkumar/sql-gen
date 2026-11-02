@@ -1,0 +1,85 @@
+LineItem,year,month,Amount
+Business Average Phone Connections,FY26,May,19026372.5
+Business Average Phone Connections,FY26,Jun,19072530.5
+Business FWA Average Connections,FY26,May,3160799
+Business FWA Average Connections,FY26,Jun,3189052.5
+Business FWA Churn %,FY26,May,0.01289927
+Business FWA Churn %,FY26,Jun,0.013409939
+Business FWA Connections,FY26,May,3172427
+Business FWA Connections,FY26,Jun,3205678
+Business FWA Connections Adj,FY26,May,-4234
+Business FWA Connections Adj,FY26,Jun,-915
+Business FWA Disconnects,FY26,May,40772
+Business FWA Disconnects,FY26,Jun,42765
+Business FWA Gross Adds,FY26,May,68262
+Business FWA Gross Adds,FY26,Jun,76931
+Business FWA Net Adds,FY26,May,27490
+Business FWA Net Adds,FY26,Jun,34166
+Business Phone Churn %,FY26,May,0.011575932
+Business Phone Churn %,FY26,Jun,0.012562098
+Business Phone Connections,FY26,May,19047727
+Business Phone Connections,FY26,Jun,19097334
+Business Phone Connections Adj,FY26,May,-4016
+Business Phone Connections Adj,FY26,Jun,-10673
+Business Phone Disconnects,FY26,May,220248
+Business Phone Disconnects,FY26,Jun,239591
+Business Phone Gross Adds,FY26,May,266973
+Business Phone Gross Adds,FY26,Jun,299871
+Business Phone Net Adds,FY26,May,46725
+Business Phone Net Adds,FY26,Jun,60280
+Business Phone Upgrades,FY26,May,227356
+Business Phone Upgrades,FY26,Jun,218999
+Business PostPaid Disconnects,FY26,May,441108
+Business PostPaid Disconnects,FY26,Jun,467879
+Business PostPaid Gross Adds,FY26,May,492155
+Business PostPaid Gross Adds,FY26,Jun,550564
+Business PostPaid Net Adds,FY26,May,51047
+Business PostPaid Net Adds,FY26,Jun,82685
+Business Total Upgrades,FY26,May,245269
+Business Total Upgrades,FY26,Jun,238660
+Consumer Average Phone Connections,FY26,May,74863019.5
+Consumer Average Phone Connections,FY26,Jun,74934898.5
+Consumer FWA Average Connections,FY26,May,5211515.5
+Consumer FWA Average Connections,FY26,Jun,5235090
+Consumer FWA Churn %,FY26,May,0.01789537
+Consumer FWA Churn %,FY26,Jun,0.019209794
+Consumer FWA Connections,FY26,May,5222227
+Consumer FWA Connections,FY26,Jun,5247953
+Consumer FWA Connections Adj,FY26,May,46
+Consumer FWA Connections Adj,FY26,Jun,-24
+Consumer FWA Disconnects,FY26,May,93262
+Consumer FWA Disconnects,FY26,Jun,100565
+Consumer FWA Gross Adds,FY26,May,114639
+Consumer FWA Gross Adds,FY26,Jun,126315
+Consumer FWA Net Adds,FY26,May,21377
+Consumer FWA Net Adds,FY26,Jun,25750
+Consumer Phone Churn %,FY26,May,0.008406808
+Consumer Phone Churn %,FY26,Jun,0.008524746
+Consumer Phone Connections,FY26,May,74868958
+Consumer Phone Connections,FY26,Jun,75000839
+Consumer Phone Connections Adj,FY26,May,11048
+Consumer Phone Connections Adj,FY26,Jun,11086
+Consumer Phone Disconnects,FY26,May,629359
+Consumer Phone Disconnects,FY26,Jun,638801
+Consumer Phone Gross Adds,FY26,May,630188
+Consumer Phone Gross Adds,FY26,Jun,759596
+Consumer Phone Net Adds,FY26,May,829
+Consumer Phone Net Adds,FY26,Jun,120795
+Consumer Phone Upgrades,FY26,May,866462
+Consumer Phone Upgrades,FY26,Jun,812311
+Consumer PostPaid Disconnects,FY26,May,1027919
+Consumer PostPaid Disconnects,FY26,Jun,1052361
+Consumer PostPaid Gross Adds,FY26,May,1040727
+Consumer PostPaid Gross Adds,FY26,Jun,1163758
+Consumer PostPaid Net Adds,FY26,May,12808
+Consumer PostPaid Net Adds,FY26,Jun,111397
+Consumer Prepaid Net Adds,FY26,May,23533
+Consumer Prepaid Net Adds,FY26,Jun,-18315
+Consumer Prepaid Net Adds excl. Safelink,FY26,May,35237
+Consumer Prepaid Net Adds excl. Safelink,FY26,Jun,-9373
+Consumer Prepaid Phone Net Adds,FY26,May,2960
+Consumer Prepaid Phone Net Adds,FY26,Jun,-30812
+Consumer Prepaid Phone Net Adds excl. Safelink,FY26,May,14664
+Consumer Prepaid Phone Net Adds excl. Safelink,FY26,Jun,-21870
+Consumer Total Upgrades,FY26,May,910891
+Consumer Total Upgrades,FY26,Jun,840200
