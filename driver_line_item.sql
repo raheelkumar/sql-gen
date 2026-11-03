@@ -5,6 +5,7 @@ WITH
       Config_ID,
       LineItem,
       ProfitCentre,
+      NULLIF(TRIM(ProfitCentreHierarchyName), '') AS ProfitCentreHierarchyName,
       Account,
       CompanyCode,
       ServiceType,
@@ -32,12 +33,26 @@ WITH
     WHERE is_primary = TRUE AND node IS NOT NULL
   ),
 
+  -- Profit centres can use an alternate hierarchy (ProfitCentreHierarchyName); blank = the primary one
+  pc_hierarchy AS (
+    SELECT DISTINCT
+      hierarchy_name,
+      is_primary,
+      parent AS filter_value,
+      node AS granular_node
+    FROM
+      `oddo_project.od_enriched_edmcs.edm_master_incl_alt_hierarchies_v`
+    WHERE dimension_name = 'Profit_Center' AND node IS NOT NULL
+  ),
+
   -- Streamlined mapping CTEs leveraging hierarchy_flat
   pc_mapping AS (
     SELECT DISTINCT C.Config_ID, H.granular_node AS ProfitCenterGranular
     FROM Config C
-    INNER JOIN hierarchy_flat H
-      ON H.filter_value = C.ProfitCentre AND H.dimension_name = 'Profit_Center'
+    INNER JOIN pc_hierarchy H
+      ON H.filter_value = C.ProfitCentre
+      AND (CASE WHEN C.ProfitCentreHierarchyName IS NULL THEN H.is_primary = TRUE
+                ELSE H.hierarchy_name = C.ProfitCentreHierarchyName END)
     WHERE C.ProfitCentre <> 'ALL'
   ),
   account_mapping AS (

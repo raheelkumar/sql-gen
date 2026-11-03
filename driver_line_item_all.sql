@@ -98,17 +98,18 @@ level2_excl_safelink AS (
 ),
 
 -- Tier 2b: Connections Roll-Forward Calculations
+-- actual_item (optional): EPM's EOP; a month that has it shows it and the roll forward restarts from it
 connection_segments AS (
   SELECT *
-  FROM UNNEST(ARRAY<STRUCT<connections_item STRING, net_adds_item STRING, adj_item STRING>>[
-    ('Consumer Phone Connections', 'Consumer Phone Net Adds', 'Consumer Phone Connections Adj'),
-    ('Business Phone Connections', 'Business Phone Net Adds', 'Business Phone Connections Adj'),
-    ('Consumer FWA Connections',   'Consumer FWA Net Adds',   'Consumer FWA Connections Adj'),
-    ('Business FWA Connections',   'Business FWA Net Adds',   'Business FWA Connections Adj'),
-    ('Consumer - Fios Fiber Connections',     'Consumer - Fios Fiber Net Adds',     'Calculated Consumer - Fios Fiber Connections Adj'),
-    ('Consumer - Frontier Fiber Connections', 'Consumer - Frontier Fiber Net Adds', 'Calculated Consumer - Frontier Fiber Connections Adj'),
-    ('Business - Fios Fiber Connections',     'Business - Fios Fiber Net Adds',     'Calculated Business - Fios Fiber Connections Adj'),
-    ('Business - Frontier Fiber Connections', 'Business - Frontier Fiber Net Adds', 'Calculated Business - Frontier Fiber Connections Adj')
+  FROM UNNEST(ARRAY<STRUCT<connections_item STRING, net_adds_item STRING, adj_item STRING, actual_item STRING>>[
+    ('Consumer Phone Connections', 'Consumer Phone Net Adds', 'Consumer Phone Connections Adj', NULL),
+    ('Business Phone Connections', 'Business Phone Net Adds', 'Business Phone Connections Adj', NULL),
+    ('Consumer FWA Connections',   'Consumer FWA Net Adds',   'Consumer FWA Connections Adj',   NULL),
+    ('Business FWA Connections',   'Business FWA Net Adds',   'Business FWA Connections Adj',   NULL),
+    ('Consumer - Fios Fiber Connections',     'Consumer - Fios Fiber Net Adds',     'Calculated Consumer - Fios Fiber Connections Adj',     'Calculated Consumer - Fios Fiber Connections EOP'),
+    ('Consumer - Frontier Fiber Connections', 'Consumer - Frontier Fiber Net Adds', 'Calculated Consumer - Frontier Fiber Connections Adj', 'Calculated Consumer - Frontier Fiber Connections EOP'),
+    ('Business - Fios Fiber Connections',     'Business - Fios Fiber Net Adds',     'Calculated Business - Fios Fiber Connections Adj',     'Calculated Business - Fios Fiber Connections EOP'),
+    ('Business - Frontier Fiber Connections', 'Business - Frontier Fiber Net Adds', 'Calculated Business - Frontier Fiber Connections Adj', 'Calculated Business - Frontier Fiber Connections EOP')
   ])
 ),
 
@@ -140,7 +141,11 @@ connections_inputs AS (
   SELECT
     s.connections_item AS LineItem,
     c.year, c.month, c.month_date,
-    NULLIF(SUM(IF(c.LineItem = s.connections_item, c.Amount, NULL)), 0) AS actual_connections,
+    -- EPM's EOP (actual_item) wins; else a row or beginning seed under the roll forward's own name
+    COALESCE(
+      NULLIF(SUM(IF(c.LineItem = s.actual_item, c.Amount, NULL)), 0),
+      NULLIF(SUM(IF(c.LineItem = s.connections_item, c.Amount, NULL)), 0)
+    ) AS actual_connections,
     COALESCE(SUM(IF(c.LineItem IN (s.net_adds_item, s.adj_item), c.Amount, NULL)), 0) AS movement
   FROM (
     SELECT year, month, month_date, LineItem, Amount
@@ -150,10 +155,10 @@ connections_inputs AS (
       'Business Phone Connections', 'Business Phone Connections Adj',
       'Consumer FWA Connections',   'Consumer FWA Connections Adj',
       'Business FWA Connections',   'Business FWA Connections Adj',
-      'Consumer - Fios Fiber Connections',     'Calculated Consumer - Fios Fiber Connections Adj',
-      'Consumer - Frontier Fiber Connections', 'Calculated Consumer - Frontier Fiber Connections Adj',
-      'Business - Fios Fiber Connections',     'Calculated Business - Fios Fiber Connections Adj',
-      'Business - Frontier Fiber Connections', 'Calculated Business - Frontier Fiber Connections Adj'
+      'Consumer - Fios Fiber Connections',     'Calculated Consumer - Fios Fiber Connections Adj',     'Calculated Consumer - Fios Fiber Connections EOP',
+      'Consumer - Frontier Fiber Connections', 'Calculated Consumer - Frontier Fiber Connections Adj', 'Calculated Consumer - Frontier Fiber Connections EOP',
+      'Business - Fios Fiber Connections',     'Calculated Business - Fios Fiber Connections Adj',     'Calculated Business - Fios Fiber Connections EOP',
+      'Business - Frontier Fiber Connections', 'Calculated Business - Frontier Fiber Connections Adj', 'Calculated Business - Frontier Fiber Connections EOP'
     )
     UNION ALL
     SELECT year, month, month_date, LineItem, Amount
@@ -170,7 +175,7 @@ connections_inputs AS (
     FROM beginning_seeds
   ) AS c
   JOIN connection_segments AS s
-    ON c.LineItem IN (s.connections_item, s.net_adds_item, s.adj_item)
+    ON c.LineItem IN (s.connections_item, s.net_adds_item, s.adj_item, s.actual_item)
   CROSS JOIN last_actual_month AS l
   WHERE c.month_date IS NOT NULL
     AND c.month_date <= l.max_month_date
