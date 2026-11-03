@@ -1,0 +1,304 @@
+node,node_desc,parent,is_leaf,dimension_name,hierarchy_name,lvl,is_primary
+PC.0.22000000,ALT FTR Only - Business,PC.0.22000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,1,false
+PC.0.22120000,ALT FTR Only - Wholesale,PC.0.22000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.41200000,ALT VZ Only - Wholesale,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.41000001,ALT VZ  Only - AI Connect,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.41500000,ALT VZ Only - Enterprise and Public Sector,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.11131,Global Real Estate VBG - Frontier (PC.11131),PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.23250000,ALT FTR Only - Public Sector Total,PC.0.22000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11153,VGS Other VCG - Frontier (PC.11153),PC.0.23000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11152,CMS Other VCG - Frontier (PC.11152),PC.0.23000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11151,Global Network & Technology VCG - FTR (PC.11151),PC.0.23000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.20P1130000.PV,Wholesale (20P1130000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.41520000,ALT VZ Only - US Public Sector Total,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.41210000,ALT VZ Only - Shared Services - Wholesale Managed,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11095,GSC-Consumer Managed (PC.11095),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11045,Global Network & Technology - Consumer (PC.11045),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.20P1132100.PV,Wholesale - Other Affiliate (PC.20P1132100.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41112000,ALT VZ Only - Medium WLS and Total WLN / Corp,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.51141000,ALT VZ Only - Prepaid Core,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.20P1140000.PV,U.S. Public Sector & Other (20P1140000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.41511100,ALT VZ Only - International Global Enterprise,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.11041,Visible Prepaid - Consumer (PC.11041),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51112200,ALT VZ Only - Indirect Channels,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.11175,Visible Postpaid(PC.11175),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51112100,ALT VZ Only - Direct Channels,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51112300,ALT VZ Only - Reseller / Wholesale - Consumer Group,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.11080,Medium CMS Other-Business Markets Managed (PC.11080),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11017,Telemarketing - Business (PC.11017),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11008,Yahoo Small Business Group (PC.11008),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11016,Store - Business (PC.11016),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11088,CMS Other-Business Markets Managed (PC.11088),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11064,MEDIUM COMM OPS (PC.11064),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11114,Pub Sec Business Development (PC.11114),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11018,Business Markets WLS Others (PC.11018),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11098,Medium GRE-Business Markets Managed (PC.11098),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11166,Walmart Family Mobile Prepaid - GSC (PC.11166),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11168,Clearway Wireless Prepaid - GSC (PC.11168),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.20P2117200.PV,Total SafeLink - Prepaid (20P2117200.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11072,Clearway Wireless Prepaid (PC.11072),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11061,Tracfone Wireless Prepaid (PC.11061),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11038,Local Agent - Consumer (PC.11038),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.0.41521220,ALT VZ Only - Other Global Enterprise Oper Units,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,8,false
+PC.11124,FAA FENS (PC.11124),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,8,false
+PC.11110,GE Business Development (PC.11110),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.0.41522230,ALT VZ Only - Global Other GE Managed,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,10,false
+PC.11134,Premier Global Enterprise (PC.11134),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,13,false
+PC.0.23000000,ALT FTR Only - Consumer,PC.0.23000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,1,false
+PC.0.40000000,ALT VZ Only - Business,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,1,false
+PC.0.22110000,ALT FTR Only - Verizon Business Markets - Total,PC.0.22000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.22220000,ALT FTR Only - VGS & CMS - Business,PC.0.22000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.41700000,ALT VZ Only - VBG HQ Total,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.20P2200000.PV,Consumer Corp. Centrally Managed Service (20P2200000.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.51100000,ALT VZ Only - Consumer Wireless,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.11150,Consumer Wireline -  Frontier (PC.11150),PC.0.23000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11117,VBG Strategy (PC.11117),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11102,Business Marketing (PC.11102),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11104,VBG Business Transformation (PC.11104),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11115,VBG Products ,PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.41120000,ALT VZ Only - Connect w/o Hum,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.41130000,ALT VZ Only - Blue Jeans,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.51310000,ALT VZ Only - Other Retail - Public Services LOB,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.51110000,ALT VZ Only - Consumer Wireless ex Visible and Tracfone,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11046,Global Supply Chain - Consumer (PC.11046),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11121,Consumer - Verizon Marketplace EHUB (PC.11121),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.20P2110000.PV,Consumer Wireless (20P2110000.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11172,Global Enterprise - Frontier(PC.11172),PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.20P1132102.PV,Domestic - Wholesale (PC.20P1132102.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.20P1120000.PV,Verizon Business Markets (20P1120000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41220000.PV,Wholesale - Other Affiliate (PC.0.41220000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41511200,ALT VZ Only - Global Enterprise Americas,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.41113200,ALT VZ Only - Shared Services - Business Markets Mgd,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.41512400,ALT VZ Only - Other Public Sector,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.20P1124000.PV,Small Business (20P1124000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.41112100,ALT VZ Only - Business Markets Wireline and Corp,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.41512200,ALT VZ Only - Other U.S. Public Sector & Other,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.20P2114000.PV,Visible Prepaid (20P2114000.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51131000,ALT VZ Only - Total Tracfone Wireless,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.41511210,ALT VZ Only - Shared Services - Global Enterprise Mgd,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11077,Small GRE-Business Markets Managed (PC.11077),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.0.41511220,ALT VZ Only - Global Enterprise Operating Units,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11010,Local Retailer - Business (PC.11010),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11113,Pub Sec Verizon Business Global Solutions (PC.11113),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11063,SMALL COMM OPS (PC.11063),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.0.41512110,ALT VZ Only - Total Federal,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.20P1161300.PV,Global Enterprise Americas (20P1161300.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11094,CMS Other-US Public Sector & Other Mgd (PC.11094),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11005,Mass Business (PC.11005),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11164,Page Plus Prepaid - GSC (PC.11164),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11040,Reseller/WLS Wholesale - Consumer (PC.11040),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11071,GoSmart Mobile Prepaid (PC.11071),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11039,National Retailer - Consumer (PC.11039),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11075,TF Property Holdings - Prepaid (PC.11075),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11065,Straight Talk Prepaid (PC.11065),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11033,Internet - Consumer (PC.11033),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.0.41521230,ALT VZ Only - Managed Global Enterprise Operating Unit,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,8,false
+PC.11109,GE Professional Services (PC.11109),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.0.41524000,ALT VZ Only - Principal GE,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,11,false
+PC.0.41523100,ALT VZ Only - Investment GE,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,11,false
+PC.0.41522100,ALT VZ Only - Total GE Strategic Accounts - WLS/WLN,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,11,false
+PC.0.41523200,ALT VZ Only - Enterprise Wireline,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,12,false
+PC.11007,Sales lification (PC.11007),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,13,false
+PC.0.51000000,ALT VZ Only - Consumer Managed,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,2,false
+PC.0.23210000,ALT FTR Only - GN&T - Consumer,PC.0.23000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.23110000,ALT FTR Only - Consumer Wireline Group,PC.0.23000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.23220000,ALT FTR Only - VGS & CMS - Consumer,PC.0.23000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.41600000,ALT VZ Only - Product And Marketing,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.42100000,ALT VZ Only - GN&T - Business,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.20P1200000.PV,Business Corp. Centrally Managed Service (20P1200000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.51400000,ALT VZ Only - Consumer Strat & Ops and HQ Other Group,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.51700000,ALT VZ Only - VGS & CMS - Consumer,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.11145,Business HQ - Frontier (PC.11145),PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11028,Global Network & Technology - Business (PC.11028),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11100,VGS Other - Business (PC.11100),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11027,Business HQ (PC.11027),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11179,AI Connect (PC.11179),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11123,VGS Other - Cons (PC.11123),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.41511000,ALT VZ Only - Global Enterprise,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41111000,ALT VZ Only - Small Business,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41220200.PV,Domestic - Wholesale (PC.0.41220200.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41113000,ALT VZ Only - Other,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41220300.PV,FTTC - Excl VzW (PC.0.41220300.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.51330000,ALT VZ Only - Other Retail Seg LOB,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.51320000,ALT VZ Only - Other Retail - LiveSource LOB,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.51111000,ALT VZ Only - Other Wireless Services - Consumer Group,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.20P2121100.PV,Public Services PV (20P2121100.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.11042,Other Wireless Services - Consumer (PC.11042),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.11127,Verizon Prepaid Core (PC.11127),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.20P2121310.PV,MCI MM Small Business PV (20P2121310.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.11158,Visible Prepaid - GSC (PC.11158),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.20P2121200.PV,Live Source Dir Asst PV (20P2121200.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.11009,Corporate Revenue - Business Market (PC.11009),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11078,Small GSC-Business Markets Managed (PC.11078),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11015,Outside - Business (PC.11015),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11163,Total Wireless Prepaid - GSC (PC.11163),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11167,GoSmart Mobile Prepaid - GSC (PC.11167),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11066,NET10 Wireless Prepaid (PC.11066),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11035,Loyalty & Non Comm - Consumer (PC.11035),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11070,Walmart Family Mobile Prepaid (PC.11070),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11159,Tracfone Wireless Prepaid - CMS (PC.11159),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11169,Total Tracfone Overhead Prepaid - GSC (PC.11169),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11021,U.S. Public Sector - Fed Govt (PC.11021),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,8,false
+PC.0.41511240,"ALT VZ Only - Global Solutions, IoT & Auto and 5GA",PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,8,false
+PC.20P1114000.PV,Other Global Enterprise Group (20P1114000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.11082,SI/Channels Global Enterprise (PC.11082),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.0.41522110,ALT VZ Only - SIH International,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,12,false
+PC.11136,Investment Global Enterprise (PC.11136),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,12,false
+PC.11006,Field Sales - Business (PC.11006),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,13,false
+PC.0.22100000,ALT FTR Only - Business Managed,PC.0.22000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,2,false
+PC.11176,Partner Sales VBG - Frontier(PC.11176),PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.11178,FTR - Customer Operations (PC.11178),PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.23230000,ALT FTR Only - Enterprise and Public Sector,PC.0.22000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.42200000,ALT VZ Only - VGS & CMS - Business,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.41100000,ALT VZ Only - Business Markets and Other Parent,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.51500000,ALT VZ Only - Shared Services - Consumer Managed,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.51200000,ALT VZ Only - Consumer Wireline Group,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.51300000,ALT VZ Only - VCM - Other Retail LOB,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.11148,VGS Other VBG - Frontier (PC.11148),PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11146,Global Network & Technology -VBG FTR (PC.11146),PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11116,VZ - Customer Operations (PC.11116),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.41110000,ALT VZ Only - Verizon Business Markets Total,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11020,Corporate Revenue - Wholesale (PC.11020),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.20P1160000.PV,Enterprise and Public Sector.PV (20P1160000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.41220000,ALT VZ Only - Wholesale Segment LOB,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11097,CMS Other-Consumer Managed (PC.11097),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.51140000,ALT VZ Only - Value,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11043,Consumer Wireline (PC.11043),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11118,Commercial MGMT ,PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.11024,Connect w/o Hum - Comm (PC.11024),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.20P2110001.PV,Consumer Wireless ex Visible (20P2110001.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.51130000,ALT VZ Only - Total Tracfone,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41111300,ALT VZ Only - Sm Shared Services-Business Mkt Mgd,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.41113100,ALT VZ Only - Wireless Sales,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51330100.PV,MCI MM Consumer PV (PC.0.51330100.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51134000,ALT VZ Only - Total TF Property Holdings,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51132000,ALT VZ Only - Total SafeLink,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51330200.PV,Consumer Dial Around PV (PC.0.51330200.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.11002,APAC Global Enterprise (PC.11002),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.20P1123000.PV,CMS - Business Markets Managed (20P1123000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11036,Outside - Consumer (PC.11036),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11037,Local Retailer - Consumer (PC.11037),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11174,Total Wireless Postpaid,PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11068,Page Plus Prepaid (PC.11068),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11160,Tracfone Wireless Prepaid - GSC (PC.11160),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11165,Simple Mobile Prepaid - GSC (PC.11165),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11022,U.S. Public Sector - SLED (PC.11022),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,8,false
+PC.11085,CMS Other-Global Enterprise Managed (PC.11085),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,8,false
+PC.11108,GE Verizon Business Global Solutions (PC.11108),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.11003,Wireless Global Enterprise (PC.11003),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.11004,Other Global Enterprise (PC.11004),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.0.41522220,ALT VZ Only - Unassigned GE,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,11,false
+PC.11135,Principal Global Enterprise (PC.11135),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,12,false
+PC.11137,SIH International (PC.11137),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,13,false
+PC.0.52000000,ALT VZ Only - Consumer Corp. Shared Services,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,2,false
+PC.11180,ALT FTR Only - AI Connect,PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.11030,Global Real Estate - Business (PC.11030),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11019,Wholesale - Business (PC.11019),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11089,GSC-Wholesale Managed (PC.11089),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.20P1132101.PV,Wholesale International (PC.20P1132101.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.11090,GRE-Wholesale Managed (PC.11090),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41220100.PV,Wholesale International (PC.0.41220100.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.51112000,ALT VZ Only - Legacy Distribution Channel PCs,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.51310000.PV,Public Services PV (PC.0.51310000.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41112300,ALT VZ Only - Medium Wireless,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.41112400,ALT VZ Only - Med Shared Services-Business Mkt Mgd,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.20P1110000.PV,Global Enterprise (20P1110000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51133000,ALT VZ Only - Total TF Wireless Products,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51135000,ALT VZ Only - Total Tracfone Overhead,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.11012,Local Agent - Business (PC.11012),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.0.41512120,ALT VZ Only - USPS Other Segments,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11011,Internet - Business (PC.11011),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11093,GRE-US Public Sector & Other Managed (PC.11093),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.0.41511230,ALT VZ Only - Other Global Enterprise,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.20P2117400.PV,Total TF Property Holdings - Prepaid (20P2117400.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11032,Store - Consumer (PC.11032),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11161,Straight Talk Prepaid - GSC (PC.11161),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11074,TF Wireless Products - Prepaid (PC.11074),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11171,SafeLink Prepaid - GSC (PC.11171),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11034,Telemarketing - Consumer (PC.11034),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11084,GRE-Global Enterprise Managed (PC.11084),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,8,false
+PC.11107,5G Acceleration (PC.11107),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.11133,Signature Global Enterprise (PC.11133),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,13,false
+PC.0.23200000,ALT FTR Only - Consumer Corp. Shared Services,PC.0.23000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,2,false
+PC.0.23100000,ALT FTR Only - Consumer Managed,PC.0.23000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,2,false
+PC.0.42000000,ALT VZ Only - Business Corp. Shared Services,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,2,false
+PC.0.22210000,ALT FTR Only - GN&T - Business,PC.0.22000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.41900000,ALT VZ Only - VBG Customer Ops Total,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.41400000,ALT VZ Only - VBG CFO Strategy and Transformation,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.11144,Wholesale - Frontier (PC.11144),PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11155,Global Supply Chain VCG - Frontier (PC.11155),PC.0.23000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11029,Global Supply Chain - Business (PC.11029),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11103,CRO Commercial Operations (PC.11103),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11031,CMS Other - Business (PC.11031),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11048,CMS Other - Consumer (PC.11048),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11044,Consumer Strategy & Operations HQ Others (PC.11044),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.20P2120000.PV,Consumer Wireline Group (20P2120000.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.20P2130000.PV,Consumer Strat & Ops and HQ Other Group (20P2130000.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11091,CMS Other-Wholesale Managed (PC.11091),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.11106,Blue Jeans (PC.11106),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.11025,Connect w/o Hum - OEM (PC.11025),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.51120000,ALT VZ Only - Visible Group,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41112200,ALT VZ Only - Medium Commercial Operations,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.41512300,ALT VZ Only - Shared Services - US Pub Sector and Oth Mgd,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.41111100,ALT VZ Only - Small Commercial Operations,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.20P2121330.PV,Consumer Dial Around PV (20P2121330.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51320000.PV,Live Source Dir Asst PV (PC.0.51320000.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.11111,Medium Business Wireless (PC.11111),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11013,Loyalty & Non Comm - Business (PC.11013),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11092,GSC-US Public Sector & Other Managed (PC.11092),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11087,GRE-Business Markets Managed (PC.11087),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11001,EMEA Global Enterprise (PC.11001),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11099,Medium GSC-Business Markets Managed (PC.11099),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.20P1122000.PV,Wireless Sales (20P1122000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.20P1125200.PV,Medium Wireless (20P1125200.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11086,GSC-Business Markets Managed (PC.11086),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11122,Total Tracfone Overhead - Prepaid (PC.11122),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.20P2117500.PV,Total Tracfone Overhead (20P2117500.PV ),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11023,Smart Cities (PC.11023),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,8,false
+PC.0.41511231,ALT VZ Only - GE Pro.Serv & Bus. Development,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,8,false
+PC.0.41523300,ALT VZ Only - Strategic Accounts,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,12,false
+PC.0.50000000,ALT VZ Only - Consumer,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,1,false
+PC.0.22200000,ALT FTR Only - Business Corp. Shared Services,PC.0.22000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,2,false
+PC.0.41000000,ALT VZ Only - Business Managed,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,2,false
+PC.11177,Product & Marketing - FTR - PC.11177,PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.22130000,ALT FTR Only - VBG HQ Total,PC.0.22000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.41300000,ALT VZ Only - Partner Sales.,PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.20P1100000.PV,Business Managed (20P1100000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.0.51600000,ALT VZ Only - GN&T - Consumer,PC.0.50000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.20P2100000.PV,Consumer Managed (20P2100000.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,3,false
+PC.11143,Verizon Business Markets - Frontier (PC.11143),PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11147,CMS Other VBG - Frontier (PC.11147),PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.23240000,ALT FTR Only - Global Enterprise Total,PC.0.22000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11130,Global Supply Chain VBG - Frontier (PC.11130),PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11156,Global Real Estate VCG - Frontier (PC.11156),PC.0.23000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.42300000,ALT VZ Only - Total Commercial MGMT,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.0.41510000,ALT VZ Only - Global Enterprise Total,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11096,GRE-Consumer Managed (PC.11096),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11047,Global Real Estate - Consumer (PC.11047),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,4,false
+PC.11173,Public Sector - Frontier,PC.0.22000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41512000,ALT VZ Only - U.S. Public Sector,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.20P1142000.PV,Connect w/o Hum (20P1142000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.20P1132103.PV,FTTC - Excl VzW (PC.20P1132103.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,5,false
+PC.0.41512100,ALT VZ Only - Public Sector: FED/SLED,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.41111200,ALT VZ Only - Small Wireless,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.0.51330000.PV,MCI MM Small Business PV (PC.0.51330000.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.20P2121320.PV,MCI MM Consumer PV (20P2121320.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.11170,Verizon Prepaid Core - GSC (PC.11170),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,6,false
+PC.11026,Corporate Revenue - Public Sector (PC.11026),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11112,Small Business Wireless (PC.11112),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.20P1125100.PV,Medium Commercial Operations (20P1125100.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11014,National Retailer - Business (PC.11014),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11076,Small CMS Other-Business Markets Managed (PC.11076),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11157,VZ - Partner Sales VBG - PC.11157,PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.20P1141000.PV,US Public Sector (20P1141000.PV),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11067,Total Wireless Prepaid (PC.11067),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11069,Simple Mobile Prepaid (PC.11069),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11162,NET10 Prepaid - GSC (PC.11162),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11073,SafeLink Prepaid (PC.11073),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.20P2117100.PV,Total Tracfone Wireless - Prepaid (20P2117100.PV),PC.0.50000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,7,false
+PC.11083,GSC-Global Enterprise Managed (PC.11083),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,8,false
+PC.11105,VBG IoT and Auto (PC.11105),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.0.41522210,ALT VZ Only - Other Managed Global Enter Oper Unit,PC.0.40000000,false,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.11081,Enterprise Acquisition - XO GE Group (PC.11081),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.11000,Americas Global Enterprise (PC.11000),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,9,false
+PC.11138,Unassigned Global Enterprise (PC.11138),PC.0.40000000,true,Profit_Center,ALT_PC_VZ_FTR_Split,12,false
