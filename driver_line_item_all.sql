@@ -63,6 +63,14 @@ level1_net_adds AS (
           SUM(CASE WHEN LineItem = 'Consumer FWA Gross Adds' THEN Amount WHEN LineItem = 'Consumer FWA Disconnects' THEN -Amount ELSE 0 END)),
         STRUCT('Business FWA Net Adds',
           SUM(CASE WHEN LineItem = 'Business FWA Gross Adds' THEN Amount WHEN LineItem = 'Business FWA Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Consumer - Fios Fiber Net Adds',
+          SUM(CASE WHEN LineItem = 'Consumer - Fios Fiber Gross Adds' THEN Amount WHEN LineItem = 'Consumer - Fios Fiber Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Consumer - Frontier Fiber Net Adds',
+          SUM(CASE WHEN LineItem = 'Consumer - Frontier Fiber Gross Adds' THEN Amount WHEN LineItem = 'Consumer - Frontier Fiber Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Business - Fios Fiber Net Adds',
+          SUM(CASE WHEN LineItem = 'Business - Fios Fiber Gross Adds' THEN Amount WHEN LineItem = 'Business - Fios Fiber Disconnects' THEN -Amount ELSE 0 END)),
+        STRUCT('Business - Frontier Fiber Net Adds',
+          SUM(CASE WHEN LineItem = 'Business - Frontier Fiber Gross Adds' THEN Amount WHEN LineItem = 'Business - Frontier Fiber Disconnects' THEN -Amount ELSE 0 END)),
         STRUCT('Consumer PostPaid Net Adds',
           SUM(CASE WHEN LineItem = 'Consumer PostPaid Gross Adds' THEN Amount WHEN LineItem = 'Consumer PostPaid Disconnects' THEN -Amount ELSE 0 END)),
         STRUCT('Business PostPaid Net Adds',
@@ -96,7 +104,11 @@ connection_segments AS (
     ('Consumer Phone Connections', 'Consumer Phone Net Adds', 'Consumer Phone Connections Adj'),
     ('Business Phone Connections', 'Business Phone Net Adds', 'Business Phone Connections Adj'),
     ('Consumer FWA Connections',   'Consumer FWA Net Adds',   'Consumer FWA Connections Adj'),
-    ('Business FWA Connections',   'Business FWA Net Adds',   'Business FWA Connections Adj')
+    ('Business FWA Connections',   'Business FWA Net Adds',   'Business FWA Connections Adj'),
+    ('Consumer - Fios Fiber Connections',     'Consumer - Fios Fiber Net Adds',     'Calculated Consumer - Fios Fiber Connections Adj'),
+    ('Consumer - Frontier Fiber Connections', 'Consumer - Frontier Fiber Net Adds', 'Calculated Consumer - Frontier Fiber Connections Adj'),
+    ('Business - Fios Fiber Connections',     'Business - Fios Fiber Net Adds',     'Calculated Business - Fios Fiber Connections Adj'),
+    ('Business - Frontier Fiber Connections', 'Business - Frontier Fiber Net Adds', 'Calculated Business - Frontier Fiber Connections Adj')
   ])
 ),
 
@@ -137,14 +149,20 @@ connections_inputs AS (
       'Consumer Phone Connections', 'Consumer Phone Connections Adj',
       'Business Phone Connections', 'Business Phone Connections Adj',
       'Consumer FWA Connections',   'Consumer FWA Connections Adj',
-      'Business FWA Connections',   'Business FWA Connections Adj'
+      'Business FWA Connections',   'Business FWA Connections Adj',
+      'Consumer - Fios Fiber Connections',     'Calculated Consumer - Fios Fiber Connections Adj',
+      'Consumer - Frontier Fiber Connections', 'Calculated Consumer - Frontier Fiber Connections Adj',
+      'Business - Fios Fiber Connections',     'Calculated Business - Fios Fiber Connections Adj',
+      'Business - Frontier Fiber Connections', 'Calculated Business - Frontier Fiber Connections Adj'
     )
     UNION ALL
     SELECT year, month, month_date, LineItem, Amount
     FROM level1_net_adds
     WHERE LineItem IN (
       'Consumer Phone Net Adds', 'Business Phone Net Adds',
-      'Consumer FWA Net Adds',   'Business FWA Net Adds'
+      'Consumer FWA Net Adds',   'Business FWA Net Adds',
+      'Consumer - Fios Fiber Net Adds', 'Consumer - Frontier Fiber Net Adds',
+      'Business - Fios Fiber Net Adds', 'Business - Frontier Fiber Net Adds'
     )
     UNION ALL
     -- Injects the Dec previous year seeds as actual anchors
@@ -194,17 +212,14 @@ level3_avg_connections AS (
       WHEN 'Business Phone Connections' THEN 'Business Average Phone Connections'
       WHEN 'Consumer FWA Connections' THEN 'Consumer FWA Average Connections'
       WHEN 'Business FWA Connections' THEN 'Business FWA Average Connections'
-      WHEN 'Consumer - Fios Fibre Connections' THEN 'Consumer - Fios Average Fibre Connections'
-      WHEN 'Business - Fios Fibre Connections' THEN 'Business - Fios Average Fibre Connections'
+      WHEN 'Consumer - Fios Fiber Connections' THEN 'Consumer - Fios Average Fiber Connections'
+      WHEN 'Consumer - Frontier Fiber Connections' THEN 'Consumer - Frontier Average Fiber Connections'
+      WHEN 'Business - Fios Fiber Connections' THEN 'Business - Fios Average Fiber Connections'
+      WHEN 'Business - Frontier Fiber Connections' THEN 'Business - Frontier Average Fiber Connections'
     END AS LineItem,
     year, month, month_date,
     (Amount + COALESCE(LAG(Amount) OVER (PARTITION BY LineItem ORDER BY month_date), Amount)) / 2.0 AS Amount
-  FROM (
-    SELECT LineItem, year, month, month_date, Amount FROM level2_connections
-    UNION ALL
-    SELECT LineItem, year, month, month_date, Amount FROM monthly_summary
-    WHERE LineItem IN ('Consumer - Fios Fibre Connections', 'Business - Fios Fibre Connections')
-  )
+  FROM level2_connections
 ),
 
 -- Tier 4: Churn % Calculations
@@ -215,6 +230,10 @@ level4_churn AS (
       WHEN LineItem IN ('Business Phone Disconnects', 'Business Average Phone Connections') THEN 'Business Phone Churn %'
       WHEN LineItem IN ('Consumer FWA Disconnects', 'Consumer FWA Average Connections') THEN 'Consumer FWA Churn %'
       WHEN LineItem IN ('Business FWA Disconnects', 'Business FWA Average Connections') THEN 'Business FWA Churn %'
+      WHEN LineItem IN ('Consumer - Fios Fiber Disconnects', 'Consumer - Fios Average Fiber Connections') THEN 'Consumer - Fios Fiber Churn %'
+      WHEN LineItem IN ('Consumer - Frontier Fiber Disconnects', 'Consumer - Frontier Average Fiber Connections') THEN 'Consumer - Frontier Fiber Churn %'
+      WHEN LineItem IN ('Business - Fios Fiber Disconnects', 'Business - Fios Average Fiber Connections') THEN 'Business - Fios Fiber Churn %'
+      WHEN LineItem IN ('Business - Frontier Fiber Disconnects', 'Business - Frontier Average Fiber Connections') THEN 'Business - Frontier Fiber Churn %'
     END AS LineItem,
     year, month, month_date,
     COALESCE(SAFE_DIVIDE(
@@ -223,10 +242,18 @@ level4_churn AS (
     ), 0) AS Amount
   FROM (
     SELECT LineItem, year, month, month_date, Amount FROM monthly_summary
-    WHERE LineItem IN ('Consumer Phone Disconnects', 'Business Phone Disconnects', 'Consumer FWA Disconnects', 'Business FWA Disconnects')
+    WHERE LineItem IN (
+      'Consumer Phone Disconnects', 'Business Phone Disconnects', 'Consumer FWA Disconnects', 'Business FWA Disconnects',
+      'Consumer - Fios Fiber Disconnects', 'Consumer - Frontier Fiber Disconnects',
+      'Business - Fios Fiber Disconnects', 'Business - Frontier Fiber Disconnects'
+    )
     UNION ALL
     SELECT LineItem, year, month, month_date, Amount FROM level3_avg_connections
-    WHERE LineItem IN ('Consumer Average Phone Connections', 'Business Average Phone Connections', 'Consumer FWA Average Connections', 'Business FWA Average Connections')
+    WHERE LineItem IN (
+      'Consumer Average Phone Connections', 'Business Average Phone Connections', 'Consumer FWA Average Connections', 'Business FWA Average Connections',
+      'Consumer - Fios Average Fiber Connections', 'Consumer - Frontier Average Fiber Connections',
+      'Business - Fios Average Fiber Connections', 'Business - Frontier Average Fiber Connections'
+    )
   )
   GROUP BY 1, year, month, month_date
 ),

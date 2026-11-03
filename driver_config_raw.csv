@@ -39,57 +39,63 @@ Config_ID,ModelName,LineItem,ProfitCentre,ProfitCentreHierarchyName,CompanyCode,
 38,Challenger Model,Calculated Consumer - Prepaid Equip. Gross Adds,PC.20P2000000,PROFIT_CENTER,ALL,STC.CU.1000,STATISTICS,ST.PRE,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL,,false
 39,Challenger Model,Consumer - Phone Connections Beginning,PC.20P2000000,PROFIT_CENTER,ALL,STC.CU.1006.i,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,EQ.0001,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
 40,Challenger Model,Business - Phone Connections Beginning,PC.20P1000000,PROFIT_CENTER,ALL,STC.CU.1006.i,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,EQ.0001,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-41,Challenger Model,Consumer - PostPaid Gross Adds,PC.20P2000000,PROFIT_CENTER,ALL,STC.CU.1000,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-42,Challenger Model,Consumer - PostPaid Disconnects,PC.20P2000000,PROFIT_CENTER,ALL,STC.CU.1001,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-43,Challenger Model,Business - PostPaid Gross Adds,PC.20P1000000,PROFIT_CENTER,ALL,STC.CU.1000,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-44,Challenger Model,Business - PostPaid Disconnects,PC.20P1000000,PROFIT_CENTER,ALL,STC.CU.1001,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-45,Challenger Model,Consumer - Wireless Gross New Accounts,PC.20P2000000,PROFIT_CENTER,CO.DW1000,STC.AC.1000,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-46,Challenger Model,Consumer - Wireless Lost Accounts,PC.20P2000000,PROFIT_CENTER,CO.DW1000,STC.AC.1001,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-47,Challenger Model,Consumer - Wireless Account Splits,PC.20P2000000,PROFIT_CENTER,CO.DW1000,STC.AC.1050,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-48,Challenger Model,Consumer - Wireless Account Merges,PC.20P2000000,PROFIT_CENTER,CO.DW1000,STC.AC.1051,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-49,Challenger Model,Business - Wireless Gross New Accounts,PC.20P1000000,PROFIT_CENTER,CO.DW1000,STC.AC.1000,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-50,Challenger Model,Business - Wireless Lost Accounts,PC.20P1000000,PROFIT_CENTER,CO.DW1000,STC.AC.1001,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-51,Challenger Model,Business - Wireless Account Splits,PC.20P1000000,PROFIT_CENTER,CO.DW1000,STC.AC.1050,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-52,Challenger Model,Business - Wireless Account Merges,PC.20P1000000,PROFIT_CENTER,CO.DW1000,STC.AC.1051,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
-53,Challenger Model,Calculated Consumer - Prepaid Phone Safelink Net Adds,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid Phone SafeLink Gross Adds] - [Calculated Consumer - Prepaid Phone SafeLink Disconnects],false
-54,Challenger Model,Calculated Consumer - Prepaid Phone Equip Net Adds,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid Phone Equip. Gross Adds] - [Calculated Consumer - Prepaid Phone Equip. Disconnects],false
-55,Challenger Model,Consumer - Prepaid Phone Net Adds excl. Safelink,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid Phone Equip Net Adds] - [Calculated Consumer - Prepaid Phone Safelink Net Adds]
-56,Challenger Model,Calculated Consumer - Prepaid Safelink Net Adds,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid SafeLink Gross Adds] - [Calculated Consumer - Prepaid SafeLink Disconnects],false
-57,Challenger Model,Calculated Consumer - Prepaid Equip Net Adds,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid Equip. Gross Adds] - [Calculated Consumer - Prepaid Equip. Disconnects],false
-58,Challenger Model,Consumer - Prepaid Net Adds excl. Safelink,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid Equip Net Adds] - [Calculated Consumer - Prepaid Safelink Net Adds]
-59,Challenger Model,Consumer - FWA Net Adds,,,,,,,,,,,,,,,,,,,,[Consumer - FWA Gross Adds] - [Consumer - FWA Disconnects]
-60,Challenger Model,Business - FWA Net Adds,,,,,,,,,,,,,,,,,,,,[Business - FWA Gross Adds] - [Business - FWA Disconnects]
-61,Challenger Model,Consumer - FWA Average Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Consumer - FWA Connections)+ Prior Period (Consumer - FWA Connections))/2]
-62,Challenger Model,Business - FWA Average Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Business - FWA Connections)+ Prior Period (Business - FWA Connections))/2]
-63,Challenger Model,Consumer - FWA Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Consumer - FWA Connections) + Current Month (Consumer - FWA Net Adds) + Current month (Calculated Consumer - FWA Connections Adj)]
-64,Challenger Model,Business - FWA Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Business - FWA Connections) + Current Month (Business - FWA Net Adds) + Current month (Calculated Business - FWA Connections Adj)]
-65,Challenger Model,Consumer - FWA Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Consumer - FWA Disconnects)]/(Consumer - FWA Average Connections)
-66,Challenger Model,Business - FWA Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Business - FWA Disconnects)]/(Business - FWA Average Connections)
-67,Challenger Model,Consumer - Fios Average Fiber Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Consumer - Fios Fiber Connections)+ Prior Period (Consumer - Fios Fiber Connections))/2]
-68,Challenger Model,Consumer - Frontier Average Fiber Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Consumer - Frontier Fiber Connections)+ Prior Period (Consumer - Frontier Fiber Connections))/2]
-69,Challenger Model,Business - Fios Average Fiber Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Business - Fios Fiber Connections)+ Prior Period (Business - Fios Fiber Connections))/2]
-70,Challenger Model,Business - Frontier Average Fiber Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Business - Frontier Fiber Connections)+ Prior Period (Business - Frontier Fiber Connections))/2]
-71,Challenger Model,Consumer - Fios Fiber Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Consumer - Fios Fiber Connections) + Current Month (Consumer - Fios Fiber Net Adds) + Current month (Calculated Consumer - Fios Fiber Connections Adj)]
-72,Challenger Model,Consumer - Frontier Fiber Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Consumer - Frontier Fiber Connections) + Current Month (Consumer - Frontier Fiber Net Adds) + Current month (Calculated Consumer - Frontier Fiber Connections Adj)]
-73,Challenger Model,Business - Fios Fiber Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Business - Fios Fiber Connections) + Current Month (Business - Fios Fiber Net Adds) + Current month (Calculated Business - Fios Fiber Connections Adj)]
-74,Challenger Model,Business - Frontier Fiber Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Business - Frontier Fiber Connections) + Current Month (Business - Frontier Fiber Net Adds) + Current month (Calculated Business - Frontier Fiber Connections Adj)]
-75,Challenger Model,Consumer - Fios Fiber Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Consumer - Fios Fiber Disconnects)]/(Consumer - Fios Average Fiber Connections)
-76,Challenger Model,Consumer - Frontier Fiber Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Consumer - Frontier Fiber Disconnects)]/(Consumer - Frontier Average Fiber Connections)
-77,Challenger Model,Business - Fios Fiber Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Business - Fios Fiber Disconnects)]/(Business - Fios Average Fiber Connections)
-78,Challenger Model,Business - Frontier Fiber Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Business - Frontier Fiber Disconnects)]/(Business - Frontier Average Fiber Connections)
-79,Challenger Model,Consumer - Fios Fiber Net Adds,,,,,,,,,,,,,,,,,,,,[Consumer - Fios Fiber Gross Adds] - [Consumer - Fios Fiber Disconnects]
-80,Challenger Model,Consumer - Frontier Fiber Net Adds,,,,,,,,,,,,,,,,,,,,[Consumer - Frontier Fiber Gross Adds] - [Consumer - Frontier Fiber Disconnects]
-81,Challenger Model,Business - Fios Fiber Net Adds,,,,,,,,,,,,,,,,,,,,[Business - Fios Fiber Gross Adds] - [Business - Fios Fiber Disconnects]
-82,Challenger Model,Business - Frontier Fiber Net Adds,,,,,,,,,,,,,,,,,,,,[Business - Frontier Fiber Gross Adds] - [Business - Frontier Fiber Disconnects]
-83,Challenger Model,Consumer - Phone Net Adds,,,,,,,,,,,,,,,,,,,,[Consumer - Phone Gross Adds] - [Consumer - Phone Disconnects]
-84,Challenger Model,Business - Phone Net Adds,,,,,,,,,,,,,,,,,,,,[Business - Phone Gross Adds] - [Business - Phone Disconnects]
-85,Challenger Model,Consumer - Average Phone Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Consumer - Phone Connections)+ Prior Period (Consumer - Phone Connections))/2]
-86,Challenger Model,Business - Average Phone Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Business - Phone Connections)+ Prior Period (Business - Phone Connections))/2]
-87,Challenger Model,Consumer - Phone Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Consumer - Phone Connections) + Current Month (Consumer - Phone Net Adds) + Current month (Calculated Consumer - Phone Connections Adj)]
-88,Challenger Model,Business - Phone Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Business - Phone Connections) + Current Month (Business - Phone Net Adds) + Current month (Calculated Business - Phone Connections Adj)]
-89,Challenger Model,Consumer - Phone Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Consumer - Phone Disconnects)]/(Consumer - Average Phone Connections)
-90,Challenger Model,Business - Phone Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Business - Phone Disconnects)]/(Business - Average Phone Connections)
-91,Challenger Model,Consumer - Postpaid Net Adds,,,,,,,,,,,,,,,,,,,,[Consumer - PostPaid Gross Adds] - [Consumer - PostPaid Disconnects]
-92,Challenger Model,Business - Postpaid Net Adds,,,,,,,,,,,,,,,,,,,,[Business - PostPaid Gross Adds] - [Business - PostPaid Disconnects]
-93,Challenger Model,Consumer - Wireless Net Accounts,,,,,,,,,,,,,,,,,,,,[Consumer - Wireless Gross New Accounts] - [Consumer - Wireless Lost Accounts] + [Consumer - Wireless Account Splits] - [Consumer - Wireless Account Merges]
-94,Challenger Model,Business - Wireless Net Accounts,,,,,,,,,,,,,,,,,,,,[Business - Wireless Gross New Accounts] - [Business - Wireless Lost Accounts] + [Business - Wireless Account Splits] - [Business - Wireless Account Merges]
+41,Challenger Model,Consumer - FWA Connections Beginning,PC.20P2000000,PROFIT_CENTER,ALL,STC.CU.1006.i,STATISTICS,ST.POST.2128,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,ALL,EQUIPMENT,DC.DISTCHAN,DISTRIBUTION_CHANNEL,ALL,,false
+42,Challenger Model,Business - FWA Connections Beginning,PC.20P1000000,PROFIT_CENTER,ALL,STC.CU.1006.i,STATISTICS,ST.POST.2128,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,ALL,EQUIPMENT,DC.DISTCHAN,DISTRIBUTION_CHANNEL,ALL,,false
+43,Challenger Model,Consumer - Fios Fiber Connections Beginning,PC.0.50000000,ALT_PC_VZ_FTR_Split,ALL,STC.CU.1400.i,STATISTICS,ALL,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.5251,PRODUCT,ALL,EQUIPMENT,DC.DISTCHAN,DISTRIBUTION_CHANNEL,ALL,,false
+44,Challenger Model,Consumer - Frontier Fiber Connections Beginning,PC.0.23000000,ALT_PC_VZ_FTR_Split,ALL,STC.CU.1400.i,STATISTICS,ALL,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.5251,PRODUCT,ALL,EQUIPMENT,DC.DISTCHAN,DISTRIBUTION_CHANNEL,ALL,,false
+45,Challenger Model,Business - Fios Fiber Connections Beginning,PC.0.40000000,ALT_PC_VZ_FTR_Split,ALL,STC.CU.1400.i,STATISTICS,ALL,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.5251,PRODUCT,ALL,EQUIPMENT,DC.DISTCHAN,DISTRIBUTION_CHANNEL,ALL,,false
+46,Challenger Model,Business - Frontier Fiber Connections Beginning,PC.0.22000000,ALT_PC_VZ_FTR_Split,ALL,STC.CU.1400.i,STATISTICS,ALL,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.5251,PRODUCT,ALL,EQUIPMENT,DC.DISTCHAN,DISTRIBUTION_CHANNEL,ALL,,false
+47,Challenger Model,Consumer - PostPaid Gross Adds,PC.20P2000000,PROFIT_CENTER,ALL,STC.CU.1000,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+48,Challenger Model,Consumer - PostPaid Disconnects,PC.20P2000000,PROFIT_CENTER,ALL,STC.CU.1001,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+49,Challenger Model,Business - PostPaid Gross Adds,PC.20P1000000,PROFIT_CENTER,ALL,STC.CU.1000,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+50,Challenger Model,Business - PostPaid Disconnects,PC.20P1000000,PROFIT_CENTER,ALL,STC.CU.1001,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.CONN.001,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+51,Challenger Model,Consumer - Wireless Gross New Accounts,PC.20P2000000,PROFIT_CENTER,CO.DW1000,STC.AC.1000,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+52,Challenger Model,Consumer - Wireless Lost Accounts,PC.20P2000000,PROFIT_CENTER,CO.DW1000,STC.AC.1001,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+53,Challenger Model,Consumer - Wireless Account Splits,PC.20P2000000,PROFIT_CENTER,CO.DW1000,STC.AC.1050,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+54,Challenger Model,Consumer - Wireless Account Merges,PC.20P2000000,PROFIT_CENTER,CO.DW1000,STC.AC.1051,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+55,Challenger Model,Business - Wireless Gross New Accounts,PC.20P1000000,PROFIT_CENTER,CO.DW1000,STC.AC.1000,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+56,Challenger Model,Business - Wireless Lost Accounts,PC.20P1000000,PROFIT_CENTER,CO.DW1000,STC.AC.1001,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+57,Challenger Model,Business - Wireless Account Splits,PC.20P1000000,PROFIT_CENTER,CO.DW1000,STC.AC.1050,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+58,Challenger Model,Business - Wireless Account Merges,PC.20P1000000,PROFIT_CENTER,CO.DW1000,STC.AC.1051,STATISTICS,ST.POST,SERVICE_TYPE,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,PR.PRIM_GPH_PR,PRODUCT,ALL,EQUIPMENT,DC.RETAIL,DISTRIBUTION_CHANNEL,ALL
+59,Challenger Model,Calculated Consumer - Prepaid Phone Safelink Net Adds,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid Phone SafeLink Gross Adds] - [Calculated Consumer - Prepaid Phone SafeLink Disconnects],false
+60,Challenger Model,Calculated Consumer - Prepaid Phone Equip Net Adds,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid Phone Equip. Gross Adds] - [Calculated Consumer - Prepaid Phone Equip. Disconnects],false
+61,Challenger Model,Consumer - Prepaid Phone Net Adds excl. Safelink,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid Phone Equip Net Adds] - [Calculated Consumer - Prepaid Phone Safelink Net Adds]
+62,Challenger Model,Calculated Consumer - Prepaid Safelink Net Adds,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid SafeLink Gross Adds] - [Calculated Consumer - Prepaid SafeLink Disconnects],false
+63,Challenger Model,Calculated Consumer - Prepaid Equip Net Adds,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid Equip. Gross Adds] - [Calculated Consumer - Prepaid Equip. Disconnects],false
+64,Challenger Model,Consumer - Prepaid Net Adds excl. Safelink,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - Prepaid Equip Net Adds] - [Calculated Consumer - Prepaid Safelink Net Adds]
+65,Challenger Model,Consumer - FWA Net Adds,,,,,,,,,,,,,,,,,,,,[Consumer - FWA Gross Adds] - [Consumer - FWA Disconnects]
+66,Challenger Model,Business - FWA Net Adds,,,,,,,,,,,,,,,,,,,,[Business - FWA Gross Adds] - [Business - FWA Disconnects]
+67,Challenger Model,Consumer - FWA Average Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Consumer - FWA Connections)+ Prior Period (Consumer - FWA Connections))/2]
+68,Challenger Model,Business - FWA Average Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Business - FWA Connections)+ Prior Period (Business - FWA Connections))/2]
+69,Challenger Model,Consumer - FWA Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Consumer - FWA Connections) + Current Month (Consumer - FWA Net Adds) + Current month (Calculated Consumer - FWA Connections Adj)]
+70,Challenger Model,Business - FWA Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Business - FWA Connections) + Current Month (Business - FWA Net Adds) + Current month (Calculated Business - FWA Connections Adj)]
+71,Challenger Model,Consumer - FWA Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Consumer - FWA Disconnects)]/(Consumer - FWA Average Connections)
+72,Challenger Model,Business - FWA Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Business - FWA Disconnects)]/(Business - FWA Average Connections)
+73,Challenger Model,Consumer - Fios Average Fiber Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Consumer - Fios Fiber Connections)+ Prior Period (Consumer - Fios Fiber Connections))/2]
+74,Challenger Model,Consumer - Frontier Average Fiber Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Consumer - Frontier Fiber Connections)+ Prior Period (Consumer - Frontier Fiber Connections))/2]
+75,Challenger Model,Business - Fios Average Fiber Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Business - Fios Fiber Connections)+ Prior Period (Business - Fios Fiber Connections))/2]
+76,Challenger Model,Business - Frontier Average Fiber Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Business - Frontier Fiber Connections)+ Prior Period (Business - Frontier Fiber Connections))/2]
+77,Challenger Model,Consumer - Fios Fiber Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Consumer - Fios Fiber Connections) + Current Month (Consumer - Fios Fiber Net Adds) + Current month (Calculated Consumer - Fios Fiber Connections Adj)]
+78,Challenger Model,Consumer - Frontier Fiber Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Consumer - Frontier Fiber Connections) + Current Month (Consumer - Frontier Fiber Net Adds) + Current month (Calculated Consumer - Frontier Fiber Connections Adj)]
+79,Challenger Model,Business - Fios Fiber Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Business - Fios Fiber Connections) + Current Month (Business - Fios Fiber Net Adds) + Current month (Calculated Business - Fios Fiber Connections Adj)]
+80,Challenger Model,Business - Frontier Fiber Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Business - Frontier Fiber Connections) + Current Month (Business - Frontier Fiber Net Adds) + Current month (Calculated Business - Frontier Fiber Connections Adj)]
+81,Challenger Model,Consumer - Fios Fiber Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Consumer - Fios Fiber Disconnects)]/(Consumer - Fios Average Fiber Connections)
+82,Challenger Model,Consumer - Frontier Fiber Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Consumer - Frontier Fiber Disconnects)]/(Consumer - Frontier Average Fiber Connections)
+83,Challenger Model,Business - Fios Fiber Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Business - Fios Fiber Disconnects)]/(Business - Fios Average Fiber Connections)
+84,Challenger Model,Business - Frontier Fiber Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Business - Frontier Fiber Disconnects)]/(Business - Frontier Average Fiber Connections)
+85,Challenger Model,Consumer - Fios Fiber Net Adds,,,,,,,,,,,,,,,,,,,,[Consumer - Fios Fiber Gross Adds] - [Consumer - Fios Fiber Disconnects]
+86,Challenger Model,Consumer - Frontier Fiber Net Adds,,,,,,,,,,,,,,,,,,,,[Consumer - Frontier Fiber Gross Adds] - [Consumer - Frontier Fiber Disconnects]
+87,Challenger Model,Business - Fios Fiber Net Adds,,,,,,,,,,,,,,,,,,,,[Business - Fios Fiber Gross Adds] - [Business - Fios Fiber Disconnects]
+88,Challenger Model,Business - Frontier Fiber Net Adds,,,,,,,,,,,,,,,,,,,,[Business - Frontier Fiber Gross Adds] - [Business - Frontier Fiber Disconnects]
+89,Challenger Model,Consumer - Phone Net Adds,,,,,,,,,,,,,,,,,,,,[Consumer - Phone Gross Adds] - [Consumer - Phone Disconnects]
+90,Challenger Model,Business - Phone Net Adds,,,,,,,,,,,,,,,,,,,,[Business - Phone Gross Adds] - [Business - Phone Disconnects]
+91,Challenger Model,Consumer - Average Phone Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Consumer - Phone Connections)+ Prior Period (Consumer - Phone Connections))/2]
+92,Challenger Model,Business - Average Phone Connections,,,,,,,,,,,,,,,,,,,,[(Current period (Business - Phone Connections)+ Prior Period (Business - Phone Connections))/2]
+93,Challenger Model,Consumer - Phone Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Consumer - Phone Connections) + Current Month (Consumer - Phone Net Adds) + Current month (Calculated Consumer - Phone Connections Adj)]
+94,Challenger Model,Business - Phone Connections,,,,,,,,,,,,,,,,,,,,[Prior month (Business - Phone Connections) + Current Month (Business - Phone Net Adds) + Current month (Calculated Business - Phone Connections Adj)]
+95,Challenger Model,Consumer - Phone Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Consumer - Phone Disconnects)]/(Consumer - Average Phone Connections)
+96,Challenger Model,Business - Phone Churn %,,,,,,,,,,,,,,,,,,,,[Current month (Business - Phone Disconnects)]/(Business - Average Phone Connections)
+97,Challenger Model,Consumer - Postpaid Net Adds,,,,,,,,,,,,,,,,,,,,[Consumer - PostPaid Gross Adds] - [Consumer - PostPaid Disconnects]
+98,Challenger Model,Business - Postpaid Net Adds,,,,,,,,,,,,,,,,,,,,[Business - PostPaid Gross Adds] - [Business - PostPaid Disconnects]
+99,Challenger Model,Consumer - Wireless Net Accounts,,,,,,,,,,,,,,,,,,,,[Consumer - Wireless Gross New Accounts] - [Consumer - Wireless Lost Accounts] + [Consumer - Wireless Account Splits] - [Consumer - Wireless Account Merges]
+100,Challenger Model,Business - Wireless Net Accounts,,,,,,,,,,,,,,,,,,,,[Business - Wireless Gross New Accounts] - [Business - Wireless Lost Accounts] + [Business - Wireless Account Splits] - [Business - Wireless Account Merges]
