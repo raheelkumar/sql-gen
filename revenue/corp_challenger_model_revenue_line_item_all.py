@@ -102,7 +102,7 @@ YEAR_LABEL_FORMAT = "FY%y"      # FORMAT_DATE pattern of the actuals year labels
 EXCLUDED_PERIODS = ()           # periods never read from actuals, e.g. ("13",) for an adjustment period
 FISCAL_YEAR_START_MONTH = 1     # 1 = fiscal year = calendar year; 4 = FY26 runs Apr 2025 - Mar 2026 (named by end year)
 
-AMOUNT_TYPE = "FLOAT64"         # type the formula maths runs in: FLOAT64, NUMERIC or BIGNUMERIC
+AMOUNT_TYPE = "NUMERIC"         # type the formula maths runs in: FLOAT64, NUMERIC or BIGNUMERIC
 RF_ZERO_IS_NO_ACTUAL = True     # ROLL_FORWARD actual= and beginning balances: 0 = none (forecast months stored as 0)
 RF_BEGINNING_SUFFIX = " Beginning"  # "<ROLL_FORWARD line item> Beginning" is that roll forward's beginning balance
 DRY_RUN = True                  # dry-run the generated SQL in generate_sql_query (fails early, logs bytes processed)

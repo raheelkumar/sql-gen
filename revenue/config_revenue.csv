@@ -71,7 +71,7 @@ Config_ID,ModelName,LineItem,ProfitCentre,ProfitCentreHierarchyName,CompanyCode,
 70,Challenger Model,Business - Volume/Services,,,,,,,,,,,,,,,,,,,,[Calculated Business - Volume/Services] - [Business - Postpaid FWA] - [Business - Promo Amortization],,
 71,Challenger Model,Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Corporate - VZ Fiber] + [Consumer - VZ Fiber] + [Business - VZ Fiber] + [Calculated Corporate - FTR Fiber] + [Consumer - FTR Fiber] + [Business - FTR Fiber],,
 72,Challenger Model,Mobility and Broadband Service Revenue,,,,,,,,,,,,,,,,,,,,[Fiber] + [Consumer - Volume/Services] + [Business - Volume/Services] + [Consumer - Reseller] + [Consumer - Value prepaid] + [Consumer - Promo Amortization] + [Business - Promo Amortization] + [Business - Postpaid FWA] + [Consumer - Postpaid FWA],,
-73,Challenger Model,Corporate - VZ WLN Less Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Corporate - VZ Only Total WLN Operating Revenue] - [Calculated Corporate - VZ Fiber],,
+73,Challenger Model,Corporate - VZ WLN Less Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Corporate - VZ Only Total WLN Operating Revenue] - [Calculated Corporate - VZ Fiber],,3 Months Average
 74,Challenger Model,Consumer - VZ WLN Less Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - VZ Only Total WLN Operating Revenue] - [Consumer - VZ Fiber],,
 75,Challenger Model,Business - VZ WLN Less Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Business - VZ Only Total WLN Operating Revenue] - [Business - VZ Fiber],,
 76,Challenger Model,Consumer - FTR WLN Less Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Consumer - FTR Only Total WLN Operating Revenue] - [Consumer - FTR Fiber],,
