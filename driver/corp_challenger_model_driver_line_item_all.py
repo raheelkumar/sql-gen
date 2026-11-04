@@ -102,7 +102,9 @@ YEAR_LABEL_FORMAT = "FY%y"      # FORMAT_DATE pattern of the actuals year labels
 EXCLUDED_PERIODS = ()           # periods never read from actuals, e.g. ("13",) for an adjustment period
 FISCAL_YEAR_START_MONTH = 1     # 1 = fiscal year = calendar year; 4 = FY26 runs Apr 2025 - Mar 2026 (named by end year)
 
-AMOUNT_TYPE = "FLOAT64"         # type the formula maths runs in: FLOAT64, NUMERIC or BIGNUMERIC
+AMOUNT_TYPE = "NUMERIC"         # type of every amount: actuals are cast to it before they are summed, and the temp
+                                # table, formula maths and OUTPUT_TABLE use it. NUMERIC: exact, 9 decimals. FLOAT64:
+                                # binary, so sums and ratios get long decimal tails. Or BIGNUMERIC.
 RF_ZERO_IS_NO_ACTUAL = True     # ROLL_FORWARD actual= and beginning balances: 0 = none (forecast months stored as 0)
 RF_BEGINNING_SUFFIX = " Beginning"  # "<ROLL_FORWARD line item> Beginning" is that roll forward's beginning balance
 DRY_RUN = True                  # dry-run the generated SQL in generate_sql_query (fails early, logs bytes processed)
@@ -898,8 +900,8 @@ def build_base_sql(plan):
     required = [m for m in joined if flags[m["config_col"]]["required"]]
     optional = [m for m in joined if not flags[m["config_col"]]["required"]]
 
-    # actuals: only the years, columns and rows the config can use, summed before they are matched to config rows.
-    # Each required dimension pre-filters the actuals with a join on its granular values.
+    # actuals: only the years, columns and rows the config can use, cast to AMOUNT_TYPE and summed before they are
+    # matched to config rows. Each required dimension pre-filters the actuals with a join on its granular values.
     group_cols = [f"T.{c}" for c in [ACTUALS_YEAR_COL, ACTUALS_PERIOD_COL] + [m["txn_col"] for m in joined]]
     filters = []
     if ACTUALS_YEARS_BACK:
@@ -912,7 +914,7 @@ def build_base_sql(plan):
     if EXCLUDED_PERIODS:
         filters.append(f"CAST(T.{ACTUALS_PERIOD_COL} AS STRING) NOT IN ({_q(EXCLUDED_PERIODS)})")
     actuals_sql = (f"actuals AS (\n  SELECT {', '.join(group_cols)}, "
-                   f"SUM(T.{ACTUALS_AMOUNT_COL}) AS {ACTUALS_AMOUNT_COL}\n"
+                   f"SUM(CAST(T.{ACTUALS_AMOUNT_COL} AS {AMOUNT_TYPE})) AS {ACTUALS_AMOUNT_COL}\n"
                    f"  FROM `{TRANSACTION_TABLE}` T\n")
     for m in required:
         f_alias = f"F_{m['config_col']}"
