@@ -1,0 +1,80 @@
+Config_ID,ModelName,LineItem,ProfitCentre,ProfitCentreHierarchyName,CompanyCode,Account,AccountHierarchy,ServiceType,ServiceTypeHierarchy,Platform,CostCenter,GeoRegion,Market,ContractTerm,Product,ProductHierarchy,Equipment,EquipmentHierachy,DistributionChannel,DistributionChannelHierarchy,Source,Formula,FinalOutput,MLProcessing
+1,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40000040,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+2,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40000015,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+3,Challenger Model,Consumer - Promo Amortization,PC.20P2000000,PROFIT_CENTER,ALL,AC.41101112,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+4,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40000615,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+5,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40008602,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+6,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40000040,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+7,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40000015,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+8,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40000452,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+9,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40091003,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+10,Challenger Model,Calculated Consumer - Volume/Services,PC.20P2000000,PROFIT_CENTER,ALL,AC.4110.01,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+11,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40002210,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+12,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40008603,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+13,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40000454,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+14,Challenger Model,Consumer - Reseller,PC.20P2000000,PROFIT_CENTER,ALL,AC.4110211,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+15,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40000450,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+16,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40008401,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+17,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40000405,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+18,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40091003,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+19,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40008010,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+20,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40008010,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+21,Challenger Model,Business - Promo Amortization,PC.20P1000000,PROFIT_CENTER,ALL,AC.41101112,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+22,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40000041,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+23,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40000450,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+24,Challenger Model,Consumer - Value prepaid,PC.20P2000000,PROFIT_CENTER,ALL,AC.411012,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+25,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40000452,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+26,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40000451,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+27,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40000405,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+28,Challenger Model,Calculated Business - Volume/Services,PC.20P1000000,PROFIT_CENTER,ALL,AC.4110.01,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+29,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40000453,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+30,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40000615,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+31,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40001010,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+32,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40000042,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+33,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40008401,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+34,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40008802,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+35,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40000451,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+36,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40008603,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+37,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40001010,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+38,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40000041,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+39,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40008802,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+40,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40000042,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+41,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40002210,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+42,Challenger Model,Consumer - Value prepaid,PC.20P2117000,PROFIT_CENTER,ALL,AC.41102,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+43,Challenger Model,Consumer - Value prepaid,PC.20P2114000,PROFIT_CENTER,ALL,AC.41102,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+44,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40008602,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+45,Challenger Model,Business - Postpaid FWA,PC.20P1000000,PROFIT_CENTER,ALL,AC.1E.40000453,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+46,Challenger Model,Consumer - Postpaid FWA,PC.20P2000000,PROFIT_CENTER,ALL,AC.1E.40000454,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+47,Challenger Model,Calculated Corporate - VZ Fiber,PC.0.30000000,,ALL,AC.4110.02,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+48,Challenger Model,Consumer - VZ Fiber,PC.0.50000000,ALT_PC_VZ_FTR_Split,ALL,AC.4110.02,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+49,Challenger Model,Business - VZ Fiber,PC.0.40000000,ALT_PC_VZ_FTR_Split,ALL,AC.4110.02,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+50,Challenger Model,Calculated Corporate - FTR Fiber,PC.0.21000000,,ALL,AC.4110.02,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+51,Challenger Model,Consumer - FTR Fiber,PC.0.23000000,ALT_PC_VZ_FTR_Split,ALL,AC.4110.02,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+52,Challenger Model,Business - FTR Fiber,PC.0.22000000,ALT_PC_VZ_FTR_Split,ALL,AC.4110.02,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+53,Challenger Model,Corporate - Wireless Service Revenue,PC.20P3000000,,ALL,AC.4110.01,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+54,Challenger Model,Calculated Corporate - VZ Only Total WLN Operating Revenue,PC.0.30000000,,CO.VT1000,AC.4000,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+55,Challenger Model,Calculated Consumer - VZ Only Total WLN Operating Revenue,PC.0.50000000,ALT_PC_VZ_FTR_Split,CO.VT1000,AC.4000,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+56,Challenger Model,Calculated Business - VZ Only Total WLN Operating Revenue,PC.0.40000000,ALT_PC_VZ_FTR_Split,CO.VT1000,AC.4000,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+57,Challenger Model,Calculated Corporate - FTR Only Total WLN Operating Revenue,PC.0.21000000,,CO.VT1000,AC.4000,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+58,Challenger Model,Calculated Consumer - FTR Only Total WLN Operating Revenue,PC.0.23000000,ALT_PC_VZ_FTR_Split,CO.VT1000,AC.4000,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+59,Challenger Model,Calculated Business - FTR Only Total WLN Operating Revenue,PC.0.22000000,ALT_PC_VZ_FTR_Split,CO.VT1000,AC.4000,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+60,Challenger Model,Consumer - Other Wireless Revenue,PC.20P2000000,PROFIT_CENTER,CO.DW1000,AC.4120,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+61,Challenger Model,Business - Other Wireless Revenue,PC.20P1000000,PROFIT_CENTER,CO.DW1000,AC.4120,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+62,Challenger Model,Corporate - Other Wireless Revenue,PC.20P3000000,,CO.DW1000,AC.4120,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,,3 Months Average
+63,Challenger Model,Eliminations,PC.20P8888888,,ALL,AC.4000,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+64,Challenger Model,Calculated Total - VZ Service and other Rev,PC.20P0000000,,ALL,AC.4100,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+65,Challenger Model,Calculated Total - VZ Wls Srvc and Fiber bb,PC.20P1111111,PROFIT_CENTER,ALL,AC.4110,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,FALSE
+66,Challenger Model,Consumer - WLS Equipment Revenue,PC.20P2000000,PROFIT_CENTER,ALL,AC.4200,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+67,Challenger Model,Business - WLS Equipment Revenue,PC.20P1000000,PROFIT_CENTER,ALL,AC.4200,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL
+68,Challenger Model,Corporate - WLS Equipment Revenue,PC.20P3000000,,ALL,AC.4200,,ALL,,ALL,ALL,ALL,MKT.PRIM_MKT,ALL,ALL,,ALL,,ALL,,ALL,,,3 Months Average
+69,Challenger Model,Consumer - Volume/Services,,,,,,,,,,,,,,,,,,,,[Calculated Consumer Volume/Services] - [Consumer Postpaid FWA] - [Consumer Promo Amortization] - [Consumer Value prepaid] - [Consumer Reseller],FALSE
+70,Challenger Model,Business - Volume/Services,,,,,,,,,,,,,,,,,,,,[Calculated Business Volumne/Services] - [Business Postpaid FWA] - [Business Promo Amortization],FALSE
+71,Challenger Model,Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Corporate VZ Fiber] + [Consumer VZ Fiber] + [Business VZ Fiber] + [Calculated Corporate FTR Fiber] + [Consumer FTR Fiber] + [Business FTR Fiber],FALSE
+72,Challenger Model,Mobility and Broadband Service Revenue,,,,,,,,,,,,,,,,,,,,[Fiber] + [Consumer Volume/Services] + [Business Volume/Services] + [Consumer Reseller] + [Consumer Value prepaid] + [Consumer Promo Amortization] + [Business Promo Amortization] + [Business Postpaid FWA] + [Consumer Postpaid FWA],FALSE
+73,Challenger Model,Corporate - VZ WLN Less Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Corporate VZ Only Total WLN Operating Revenue] - [Calculated Corporate VZ Fiber],FALSE
+74,Challenger Model,Consumer - VZ WLN Less Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Consumer VZ Only Total WLN Operating Revenue] - [Consumer VZ Fiber],FALSE
+75,Challenger Model,Business - VZ WLN Less Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Business VZ Only Total WLN Operating Revenue] - [Business VZ Fiber],FALSE
+76,Challenger Model,Consumer - FTR WLN Less Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Consumer FTR Only Total WLN Operating Revenue] - [Consumer FTR Fiber],FALSE
+77,Challenger Model,Business - FTR WLN Less Fiber,,,,,,,,,,,,,,,,,,,,[Calculated Business FTR Only Total WLN Operating Revenue] - [Business FTR Fiber],FALSE
+78,Challenger Model,Corporate and Other,,,,,,,,,,,,,,,,,,,,[Calculated Total VZ Service and other Rev] - [Calculated Total VZ Wls Srvc and Fiber bb] - [Eliminations] - [Consumer Other Wireless Revenue] - [Business Other Wireless Revenue] - [Corporate Other Wireless Revenue] - ([Corporate VZ WLN Less Fiber] + [Consumer VZ WLN Less Fiber] + [Business VZ WLN Less Fiber] + [Consumer FTR WLN Less Fiber] + [Business FTR WLN Less Fiber]),FALSE
+79,Challenger Model,Total Operating Revenues,,,,,,,,,,,,,,,,,,,,[Mobility and Broadband Service Revenue] + [Corporate VZ WLN Less Fiber] + [Consumer VZ WLN Less Fiber] + [Business VZ WLN Less Fiber] + [Consumer FTR WLN Less Fiber] + [Business FTR WLN Less Fiber] + [Consumer Other Wireless Revenue] + [Business Other Wireless Revenue] + [Corporate Other Wireless Revenue] + [Corporate and Other] + [Eliminations] + [Consumer WLS Equipment Revenue] + [Business WLS Equipment Revenue] + [Corporate WLS Equipment Revenue],FALSE
