@@ -106,7 +106,8 @@ BUDGET_FILTERS = {"scenario": "SC.CV", "version": "VR.SUB.8"}
 
 ACTUALS_YEARS_BACK = 5          # fiscal years read from actuals, counting the current one; None = all years
 YEAR_LABEL_FORMAT = "FY%y"      # FORMAT_DATE pattern of the actuals year labels (FY26)
-EXCLUDED_PERIODS = ()           # periods never read from actuals, e.g. ("13",) for an adjustment period
+EXCLUDED_PERIODS = ("BegBalance",)  # periods never read from actuals (exact values). BegBalance, the plan's opening
+                                    # balance, is not a month (the hand-written view keeps it as one).
 FISCAL_YEAR_START_MONTH = 1     # 1 = fiscal year = calendar year; 4 = FY26 runs Apr 2025 - Mar 2026 (named by end year)
 
 AMOUNT_TYPE = "NUMERIC"         # type of every amount: actuals are cast to it before they are summed, and the temp
